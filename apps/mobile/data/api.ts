@@ -118,18 +118,12 @@ import {
   WorkspaceListSchema,
 } from "./schemas";
 import type { ZodType } from "zod";
+import { mockRouter } from "@multica/core/mock";
 import { getCurrentSlug } from "./workspace-store";
 import { parseWithFallback } from "@/lib/parse-response";
 import { createRequestId } from "@/lib/request-id";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
-
-if (!API_URL) {
-  throw new Error(
-    "EXPO_PUBLIC_API_URL is not set. Add it to apps/mobile/.env.development.local " +
-      "(see apps/mobile/.env.staging for an example).",
-  );
-}
+const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 
 export interface LoginResponse {
   token: string;
@@ -238,6 +232,29 @@ class ApiClient {
     }
 
     console.log(`[api] → ${method} ${path}`, { rid });
+
+    if (!API_URL) {
+      clearTimeout(timeoutId);
+      callerSignal?.removeEventListener("abort", onCallerAbort);
+      try {
+        const mockRes = await mockRouter.handle(path, {
+          method,
+          headers,
+          body: init.body,
+        });
+        if (mockRes) {
+          const duration = Date.now() - start;
+          console.log(`[api] ← [MOCK] ${mockRes.status} ${path}`, {
+            rid,
+            duration: `${duration}ms`,
+          });
+          if (mockRes.status === 204) return undefined as T;
+          return (await mockRes.json()) as T;
+        }
+      } catch (err) {
+        console.warn(`[api] Mock router error for ${path}`, { error: err });
+      }
+    }
 
     let res: Response;
     try {
@@ -1221,6 +1238,26 @@ class ApiClient {
     if (opts?.commentId) formData.append("comment_id", opts.commentId);
 
     console.log(`[api] → POST ${path}`, { rid, filename: asset.name });
+
+    if (!API_URL) {
+      return {
+        id: `att_${Date.now()}`,
+        workspace_id: "ws_demo",
+        issue_id: opts?.issueId ?? null,
+        comment_id: opts?.commentId ?? null,
+        chat_session_id: null,
+        chat_message_id: null,
+        uploader_type: "user",
+        uploader_id: "usr_demo",
+        filename: asset.name,
+        size_bytes: 1024,
+        content_type: asset.type,
+        url: asset.uri,
+        download_url: asset.uri,
+        markdown_url: asset.uri,
+        created_at: new Date().toISOString(),
+      };
+    }
 
     const res = await fetch(`${API_URL}${path}`, {
       method: "POST",

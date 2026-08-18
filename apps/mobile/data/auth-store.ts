@@ -37,7 +37,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     // workspace without flashing /select-workspace.
     await useWorkspaceStore.getState().restoreSlug();
 
-    const token = await getToken();
+    const isMock = !process.env.EXPO_PUBLIC_API_URL;
+    let token = await getToken();
+    if (!token && isMock) {
+      token = "mock_jwt_token_autonomous_engineer";
+      await setToken(token);
+    }
+
     if (!token) {
       set({ isLoading: false });
       return;
@@ -45,6 +51,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     api.setToken(token);
     try {
       const user = await api.getMe();
+      if (isMock && !useWorkspaceStore.getState().currentWorkspaceSlug) {
+        await useWorkspaceStore.getState().setCurrentWorkspace("ws_demo", "demo");
+      }
       set({ user, isLoading: false });
     } catch (err) {
       // Only clear token on a genuine 401. Network blips / 5xx keep the

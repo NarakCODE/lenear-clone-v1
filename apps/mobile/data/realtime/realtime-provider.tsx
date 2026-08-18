@@ -41,16 +41,10 @@ import { useWorkspaceStore } from "@/data/workspace-store";
 import { getToken } from "@/data/secure-storage";
 import { WSClient } from "./ws-client";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
-
-if (!API_URL) {
-  // ApiClient already throws on this; keeping a defensive check here
-  // avoids a confusing "URL constructor failed" deep in WSClient.
-  throw new Error("EXPO_PUBLIC_API_URL is not set");
-}
+const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 
 // http(s)://host → ws(s)://host/ws
-const WS_URL = `${API_URL.replace(/^http/, "ws")}/ws`;
+const WS_URL = API_URL ? `${API_URL.replace(/^http/, "ws")}/ws` : "";
 
 const RealtimeContext = createContext<WSClient | null>(null);
 
@@ -72,7 +66,7 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
   const lastConnectedRef = useRef<boolean | null>(null);
 
   useEffect(() => {
-    if (!userId || !wsSlug) {
+    if (!userId || !wsSlug || !WS_URL) {
       setClient(null);
       return;
     }
