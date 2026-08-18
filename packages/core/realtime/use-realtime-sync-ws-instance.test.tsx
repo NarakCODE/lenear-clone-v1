@@ -346,7 +346,9 @@ describe("useRealtimeSync — workspace:deleted self-initiated suppression", () 
 
   afterEach(() => {
     unmarkWorkspaceDeletePending("ws-2");
-    localStorage.clear();
+    if (typeof localStorage !== "undefined" && typeof localStorage.clear === "function") {
+      localStorage.clear();
+    }
   });
 
   // getCurrentWsId is mocked to "ws-1" at module level, so deleting "ws-2"

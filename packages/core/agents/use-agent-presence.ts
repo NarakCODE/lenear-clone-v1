@@ -67,9 +67,9 @@ export function useWorkspacePresenceMap(wsId: string | undefined): {
   const byAgent = useMemo(() => {
     // Treat errored queries as empty so the map still builds — a 404 on
     // the snapshot endpoint shouldn't leave every row's presence blank.
-    const safeAgents = agents ?? (agentsErr ? [] : null);
-    const safeRuntimes = runtimes ?? (runtimesErr ? [] : null);
-    const safeSnapshot = snapshot ?? (snapshotErr ? [] : null);
+    const safeAgents = Array.isArray(agents) ? agents : (agentsErr ? [] : null);
+    const safeRuntimes = Array.isArray(runtimes) ? runtimes : (runtimesErr ? [] : null);
+    const safeSnapshot = Array.isArray(snapshot) ? snapshot : (snapshotErr ? [] : null);
     if (!safeAgents || !safeRuntimes || !safeSnapshot) {
       return new Map<string, AgentPresenceDetail>();
     }
@@ -141,9 +141,9 @@ export function useAgentPresenceDetail(
     // 5xx on the snapshot endpoint (e.g. backend hasn't deployed the new
     // route yet) used to leave the UI spinning forever; now we degrade to
     // an empty list and the dot still renders based on runtime health.
-    const safeAgents = agents ?? (agentsErr ? [] : null);
-    const safeRuntimes = runtimes ?? (runtimesErr ? [] : null);
-    const safeSnapshot = snapshot ?? (snapshotErr ? [] : null);
+    const safeAgents = Array.isArray(agents) ? agents : (agentsErr ? [] : null);
+    const safeRuntimes = Array.isArray(runtimes) ? runtimes : (runtimesErr ? [] : null);
+    const safeSnapshot = Array.isArray(snapshot) ? snapshot : (snapshotErr ? [] : null);
     if (!safeAgents || !safeRuntimes || !safeSnapshot) return "loading";
 
     const agent = safeAgents.find((a) => a.id === agentId);

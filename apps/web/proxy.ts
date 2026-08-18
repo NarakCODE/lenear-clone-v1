@@ -90,19 +90,13 @@ export function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // --- Root path: redirect logged-in users to their last workspace ---
-  // The official cloud host also serves the public marketing site. Visiting
-  // https://multica.ai/ must remain a public-site navigation even when a local
-  // desktop/runtime session has fresh auth cookies; explicit app routes such
-  // as /acme/issues and legacy /issues still route to the workspace app.
+  // --- Root path: redirect to workspace issues ---
   if (
     pathname === "/" &&
-    hasSession &&
-    lastSlug &&
     !isOfficialMarketingHost(req.nextUrl.hostname)
   ) {
     const url = req.nextUrl.clone();
-    url.pathname = `/${lastSlug}/issues`;
+    url.pathname = `/${lastSlug || "demo"}/issues`;
     return NextResponse.redirect(url);
   }
 

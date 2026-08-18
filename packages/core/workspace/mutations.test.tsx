@@ -126,7 +126,9 @@ describe("useDeleteWorkspace", () => {
     // after a successful delete (it suppresses the WS echo); reset it so
     // tests stay independent.
     unmarkWorkspaceDeletePending("ws-2");
-    localStorage.clear();
+    if (typeof localStorage !== "undefined" && typeof localStorage.clear === "function") {
+      localStorage.clear();
+    }
     vi.restoreAllMocks();
   });
 

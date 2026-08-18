@@ -218,6 +218,7 @@ import type {
 import { type Logger, noopLogger } from "../logger";
 import { createRequestId } from "../utils";
 import { getCurrentSlug } from "../platform/workspace-storage";
+import { mockRouter } from "../mock/mock-router";
 import { parseWithFallback } from "./schema";
 import {
   AgentTaskListSchema,
@@ -427,6 +428,8 @@ export interface ApiClientOptions {
   onUnauthorized?: () => void;
   /** Identifies the client to the server. Sent as X-Client-* headers. */
   identity?: ApiClientIdentity;
+  /** When true (or when baseUrl is empty/mock mode), handles requests locally via MockRouter */
+  mock?: boolean;
 }
 
 export interface ClientRuntimeSnapshot {
@@ -646,6 +649,22 @@ export class ApiClient {
     };
 
     this.logger.info(`→ ${method} ${path}`, { rid });
+
+    if (this.options.mock === true || (!this.baseUrl && this.options.mock !== false)) {
+      try {
+        const mockRes = await mockRouter.handle(path, {
+          method,
+          headers,
+          body: init?.body,
+        });
+        if (mockRes) {
+          this.logger.info(`← [MOCK] ${mockRes.status} ${path}`, { rid, duration: `${Date.now() - start}ms` });
+          return mockRes;
+        }
+      } catch (err) {
+        this.logger.warn(`Mock router error for ${path}, falling back to fetch`, { error: err });
+      }
+    }
 
     const res = await fetch(`${this.baseUrl}${path}`, {
       ...init,
