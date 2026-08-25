@@ -1667,7 +1667,36 @@ func NewRouterWithOptions(pool *pgxpool.Pool, hub *realtime.Hub, bus *events.Bus
 				})
 			})
 
-			// Squads
+			// Teams
+			r.Route("/api/teams", func(r chi.Router) {
+				r.Get("/", h.ListTeams)
+				r.Post("/", h.CreateTeam)
+				r.Route("/{id}", func(r chi.Router) {
+					r.Get("/", h.GetTeam)
+					r.Put("/", h.UpdateTeam)
+					r.Patch("/", h.UpdateTeam)
+					r.Post("/archive", h.ArchiveTeam)
+					r.Delete("/", h.DeleteTeam)
+					r.Get("/members", h.ListTeamMembers)
+					r.Post("/members", h.AddTeamMember)
+					r.Patch("/members/{userId}/role", h.UpdateTeamMemberRole)
+					r.Delete("/members/{userId}", h.RemoveTeamMember)
+					r.Get("/cycles", h.ListCycles)
+					r.Post("/cycles", h.CreateCycle)
+					r.Get("/cycles/current", h.GetCurrentCycle)
+				})
+			})
+
+			// Cycles
+			r.Route("/api/cycles/{id}", func(r chi.Router) {
+				r.Get("/", h.GetCycle)
+				r.Put("/", h.UpdateCycle)
+				r.Patch("/", h.UpdateCycle)
+				r.Delete("/", h.DeleteCycle)
+				r.Get("/progress", h.GetCycleProgress)
+			})
+
+			// Squads (backward compatibility shim)
 			r.Route("/api/squads", func(r chi.Router) {
 				r.Get("/", h.ListSquads)
 				r.Post("/", h.CreateSquad)
@@ -1682,9 +1711,6 @@ func NewRouterWithOptions(pool *pgxpool.Pool, hub *realtime.Hub, bus *events.Bus
 					r.Patch("/members/role", h.UpdateSquadMemberRole)
 				})
 			})
-
-			// Squad leader evaluation (writes to activity_log)
-			r.Post("/api/issues/{id}/squad-evaluated", h.RecordSquadLeaderEvaluation)
 
 			// Autopilots
 			r.Route("/api/autopilots", func(r chi.Router) {

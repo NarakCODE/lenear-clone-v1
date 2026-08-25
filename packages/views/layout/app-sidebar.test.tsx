@@ -127,6 +127,9 @@ vi.mock("@multica/core/paths", async (importOriginal) => ({
     myIssues: () => "/acme/my-issues",
     issues: () => "/acme/issues",
     projects: () => "/acme/projects",
+    teams: () => "/acme/teams",
+    cycles: () => "/acme/cycles",
+    views: () => "/acme/views",
     autopilots: () => "/acme/autopilots",
     agents: () => "/acme/agents",
     squads: () => "/acme/squads",
@@ -333,99 +336,32 @@ describe("workspace-switcher dropdown per-workspace dot", () => {
   });
 });
 
-describe("personal nav — Chat", () => {
+describe("personal nav — Inbox", () => {
   beforeEach(() => {
-    chatSessions.current = [];
     inboxItems.current = [];
     navigation.current = { pathname: "/acme/issues" };
-    chatStore.current = { activeSessionId: null, isOpen: false };
     appForeground.current = true;
   });
 
-  // The mocked SidebarMenuButton exposes the AppLink target as `data-href`
-  // and renders the label + badge as its children.
-  const chatNav = (container: HTMLElement) =>
-    container.querySelector<HTMLElement>('button[data-href="/acme/chat"]');
-  const chatBadge = (container: HTMLElement) =>
-    chatNav(container)?.querySelector("number-flow-react") ?? null;
+  const inboxNav = (container: HTMLElement) =>
+    container.querySelector<HTMLElement>('button[data-href="/acme/inbox"]');
+  const inboxBadge = (container: HTMLElement) =>
+    inboxNav(container)?.querySelector("number-flow-react") ?? null;
 
-  it("keeps persistent Inbox and Chat counters static", () => {
+  it("renders an Inbox nav link to the workspace inbox route", () => {
+    const { container } = render(<AppSidebar />);
+    expect(inboxNav(container)).not.toBeNull();
+  });
+
+  it("badges the Inbox nav when there are unread inbox items", () => {
     inboxItems.current = [{ id: "inbox-1", read: false }];
-    chatSessions.current = [{ id: "chat-1", unread_count: 2 }];
     const { container } = render(<AppSidebar />);
-    const inboxBadge = container
-      .querySelector<HTMLElement>('button[data-href="/acme/inbox"]')
-      ?.querySelector("number-flow-react") as (HTMLElement & { animated?: boolean }) | null;
-    const currentChatBadge = chatBadge(container) as (HTMLElement & { animated?: boolean }) | null;
-
-    expect(inboxBadge?.animated).toBe(false);
-    expect(currentChatBadge?.animated).toBe(false);
+    expect(inboxBadge(container)).toHaveAttribute("aria-label", "1");
   });
 
-  it("renders a Chat nav link to the workspace chat route", () => {
+  it("shows no Inbox unread badge when every item is read", () => {
+    inboxItems.current = [{ id: "inbox-1", read: true }];
     const { container } = render(<AppSidebar />);
-    expect(chatNav(container)).not.toBeNull();
-  });
-
-  it("badges the Chat nav with the summed unread_count of chat sessions", () => {
-    chatSessions.current = [{ id: "a", unread_count: 3 }, { id: "b", unread_count: 2 }, { id: "c", unread_count: 0 }];
-    const { container } = render(<AppSidebar />);
-    expect(chatBadge(container)).toHaveAttribute("aria-label", "5");
-  });
-
-  it("shows no Chat unread badge when every session is read", () => {
-    chatSessions.current = [{ id: "a", unread_count: 0 }, { id: "b" }];
-    const { container } = render(<AppSidebar />);
-    expect(chatBadge(container)).toBeNull();
-  });
-
-  it("excludes the session being viewed on the chat page from the badge", () => {
-    // The thread list zeroes the open session's row badge; the aggregate
-    // must follow, or a reply landing in the open conversation flashes a
-    // count with no matching row.
-    chatSessions.current = [{ id: "a", unread_count: 2 }, { id: "b", unread_count: 3 }];
-    navigation.current = { pathname: "/acme/chat" };
-    chatStore.current = { activeSessionId: "a", isOpen: false };
-    const { container } = render(<AppSidebar />);
-    expect(chatBadge(container)).toHaveAttribute("aria-label", "3");
-  });
-
-  it("excludes the viewed session when the floating chat window is open off-route", () => {
-    chatSessions.current = [{ id: "a", unread_count: 2 }, { id: "b", unread_count: 3 }];
-    navigation.current = { pathname: "/acme/issues" };
-    chatStore.current = { activeSessionId: "a", isOpen: true };
-    const { container } = render(<AppSidebar />);
-    expect(chatBadge(container)).toHaveAttribute("aria-label", "3");
-  });
-
-  it("still counts a remembered selection when no chat surface is showing it", () => {
-    // activeSessionId persists after the chat page closes; with both
-    // surfaces closed nothing will auto mark-read, so the badge must count.
-    chatSessions.current = [{ id: "a", unread_count: 2 }, { id: "b", unread_count: 3 }];
-    navigation.current = { pathname: "/acme/issues" };
-    chatStore.current = { activeSessionId: "a", isOpen: false };
-    const { container } = render(<AppSidebar />);
-    expect(chatBadge(container)).toHaveAttribute("aria-label", "5");
-  });
-
-  it("counts the active session while the floating window is open but the app is backgrounded", () => {
-    // A reply landing while the app is not in the foreground is NOT auto
-    // marked-read (MUL-4485), so its unread must still badge — otherwise the
-    // notification is silently eaten while the user is away.
-    chatSessions.current = [{ id: "a", unread_count: 2 }, { id: "b", unread_count: 3 }];
-    navigation.current = { pathname: "/acme/issues" };
-    chatStore.current = { activeSessionId: "a", isOpen: true };
-    appForeground.current = false;
-    const { container } = render(<AppSidebar />);
-    expect(chatBadge(container)).toHaveAttribute("aria-label", "5");
-  });
-
-  it("counts the active session on the chat route while the app is backgrounded", () => {
-    chatSessions.current = [{ id: "a", unread_count: 2 }, { id: "b", unread_count: 3 }];
-    navigation.current = { pathname: "/acme/chat" };
-    chatStore.current = { activeSessionId: "a", isOpen: false };
-    appForeground.current = false;
-    const { container } = render(<AppSidebar />);
-    expect(chatBadge(container)).toHaveAttribute("aria-label", "5");
+    expect(inboxBadge(container)).toBeNull();
   });
 });

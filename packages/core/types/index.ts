@@ -1,5 +1,21 @@
 export type { Issue, IssueStatus, IssuePriority, IssueAssigneeType, IssueMetadata, IssueMetadataValue, IssueReaction } from "./issue";
 export type {
+  Team,
+  TeamMember,
+  TeamMemberRole,
+  CreateTeamRequest,
+  UpdateTeamRequest,
+  AddTeamMemberRequest,
+  UpdateTeamMemberRoleRequest,
+} from "./team";
+export type {
+  Cycle,
+  CycleStatus,
+  CycleProgress,
+  CreateCycleRequest,
+  UpdateCycleRequest,
+} from "./cycle";
+export type {
   IssueStatusCategory,
   IssueStatusEntry,
   ListIssueStatusesResponse,

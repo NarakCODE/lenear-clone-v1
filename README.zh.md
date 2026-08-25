@@ -84,7 +84,7 @@ diff，全都挂在同一个任务下——没人需要重新捋一遍上下文�
 - **[角色](https://multica.ai/docs/members-roles)与[使用权限](https://multica.ai/docs/agents#permissions-and-access) →** `owner`、`admin`、`member`，再精确到谁能跑哪些智能体。
 - **[安全模型](https://multica.ai/docs/security-model) →** 智能体碰得到什么，碰不到什么。
 - **[Slack、飞书、钉钉](https://multica.ai/docs/channels) →** 在团队本来就在聊天的地方，触发和跟进智能体的工作。钉钉由社区维护。
-- **[Web、桌面端、移动端](https://multica.ai/docs/desktop-app) →** macOS、Windows、Linux、iPhone，打开都是同一个工作区——iOS 现在要自己从源码编译安装，还没上 App Store。
+- **[Web、桌面端](https://multica.ai/docs/desktop-app) →** macOS、Windows、Linux，打开都是同一个工作区。
 - **[CLI 与 API](https://multica.ai/docs/cli) →** 界面上能点的，CLI 和 API 里都能调。智能体操作 Multica，用的就是你那套 CLI。
 
 ---
@@ -180,7 +180,7 @@ Multica 不自带模型。它驱动的是你本来就装好、登录好的那些
 ## 架构
 
 ```
-        Web  ·  桌面端 (macOS/Windows/Linux)  ·  iOS
+        Web  ·  桌面端 (macOS/Windows/Linux)
                           │
                           ▼
    ┌──────────────┐   ┌──────────────┐   ┌──────────────────┐
@@ -202,7 +202,6 @@ Multica 不自带模型。它驱动的是你本来就装好、登录好的那些
 | --- | --- |
 | Web | Next.js 16 (App Router) |
 | 桌面端 | Electron，复用 Web 的 UI 包 |
-| 移动端 | Expo / React Native (iOS) |
 | 后端 | Go (Chi router, sqlc, gorilla/websocket) |
 | 数据库 | PostgreSQL 17 + pgvector |
 | 智能体运行时 | 本地守护进程拉起上面 20 种智能体 CLI 中的任意一个 |
@@ -223,8 +222,6 @@ make dev
 跑迁移，最后把所有服务拉起来。
 
 完整的开发流程、worktree 支持、测试和问题排查见 [CONTRIBUTING.md](CONTRIBUTING.md)。
-iOS 客户端在 [`apps/mobile/`](apps/mobile/)，怎么编译装到自己 iPhone 上见它的
-[README](apps/mobile/README.md)。
 
 我们几乎每个工作日都发版，`main` 走得很快——记得常拉最新代码。
 

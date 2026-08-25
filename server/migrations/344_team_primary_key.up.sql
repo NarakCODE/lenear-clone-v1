@@ -1,0 +1,1 @@
+ALTER TABLE team ADD CONSTRAINT team_pkey PRIMARY KEY USING INDEX idx_team_id_pkey;

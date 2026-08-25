@@ -1,0 +1,1 @@
+ALTER TABLE cycle DROP CONSTRAINT IF EXISTS cycle_pkey;

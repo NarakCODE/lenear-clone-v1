@@ -115,6 +115,9 @@ type NavKey =
   | "myIssues"
   | "issues"
   | "projects"
+  | "teams"
+  | "cycles"
+  | "views"
   | "autopilots"
   | "agents"
   | "squads"
@@ -131,6 +134,9 @@ type NavLabelKey =
   | "my_issues"
   | "issues"
   | "projects"
+  | "teams"
+  | "cycles"
+  | "views"
   | "autopilots"
   | "agents"
   | "squads"
@@ -144,22 +150,18 @@ type NavLabelKey =
 // always agree. See route-icon-components.tsx.
 const personalNav: { key: NavKey; labelKey: NavLabelKey }[] = [
   { key: "inbox", labelKey: "inbox" },
-  { key: "chat", labelKey: "chat" },
   { key: "myIssues", labelKey: "my_issues" },
 ];
 
 const workspaceNav: { key: NavKey; labelKey: NavLabelKey }[] = [
   { key: "issues", labelKey: "issues" },
   { key: "projects", labelKey: "projects" },
-  { key: "autopilots", labelKey: "autopilots" },
-  { key: "agents", labelKey: "agents" },
-  { key: "squads", labelKey: "squads" },
-  { key: "usage", labelKey: "usage" },
+  { key: "teams", labelKey: "teams" },
+  { key: "cycles", labelKey: "cycles" },
+  { key: "views", labelKey: "views" },
 ];
 
 const configureNav: { key: NavKey; labelKey: NavLabelKey }[] = [
-  { key: "runtimes", labelKey: "runtimes" },
-  { key: "skills", labelKey: "skills" },
   { key: "settings", labelKey: "settings" },
 ];
 

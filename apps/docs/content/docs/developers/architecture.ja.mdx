@@ -6,7 +6,7 @@ description: Multica のクライアント、Go サービス、実行デーモ�
 Multica は Go バックエンド、複数のクライアント、実行用コンピューター上で動作するデーモンで構成されています。PostgreSQL がコラボレーションデータを保存し、デーモンがタスクを取得してローカルの AI コーディングツールを呼び出します。
 
 ```text
-Web / Desktop / Mobile / CLI
+Web / Desktop / CLI
              │
        HTTP + WebSocket
              │
@@ -26,7 +26,6 @@ Web / Desktop / Mobile / CLI
 | `server/` | API、認証、タスクスケジューリング、インテグレーション、CLI、デーモン | Go、Chi、sqlc、gorilla/websocket |
 | `apps/web/` | ブラウザクライアントとランディングページ | Next.js App Router |
 | `apps/desktop/` | デスクトップクライアントとローカルプロセス管理 | Electron、electron-vite |
-| `apps/mobile/` | 独立した iOS クライアント | Expo、React Native |
 | `apps/docs/` | 多言語ドキュメントサイト | Next.js、Fumadocs |
 | `packages/core/` | API クライアント、型、クエリ、mutation、プラットフォーム非依存のビジネスロジック | TanStack Query、Zustand |
 | `packages/ui/` | ビジネスロジックを含まない基礎 UI | shadcn、Base UI |
@@ -53,8 +52,6 @@ packages/views/issues/     ページとビジネスコンポーネント
 apps/web/platform/         Next.js ルーティングアダプター
 apps/desktop/.../platform/ Electron ルーティングアダプター
 ```
-
-Mobile はこれらの React ページを再利用しません。`@multica/core` の型や純粋関数をインポートできますが、UI、query key、状態、リアルタイム購読、リリースフローは独自に持ちます。
 
 ## フロントエンドの状態
 

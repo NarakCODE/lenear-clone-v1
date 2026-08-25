@@ -89,6 +89,17 @@ const (
 	EventChatSessionDeleted  = "chat:session_deleted"
 	EventChatSessionUpdated  = "chat:session_updated"
 
+	// Team events
+	EventTeamCreated  = "team:created"
+	EventTeamUpdated  = "team:updated"
+	EventTeamArchived = "team:archived"
+	EventTeamDeleted  = "team:deleted"
+
+	// Cycle events
+	EventCycleCreated = "cycle:created"
+	EventCycleUpdated = "cycle:updated"
+	EventCycleDeleted = "cycle:deleted"
+
 	// Project events
 	EventProjectCreated         = "project:created"
 	EventProjectUpdated         = "project:updated"

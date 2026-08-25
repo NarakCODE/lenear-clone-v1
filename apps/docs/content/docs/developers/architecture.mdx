@@ -6,7 +6,7 @@ description: Learn how Multica's clients, Go service, execution daemon, and shar
 Multica consists of a Go backend, multiple clients, and a daemon that runs on execution computers. PostgreSQL stores collaboration data; the daemon claims tasks and invokes local AI coding tools.
 
 ```text
-Web / Desktop / Mobile / CLI
+Web / Desktop / CLI
              │
        HTTP + WebSocket
              │
@@ -26,7 +26,6 @@ For a product-facing explanation, see [How Multica works](/how-multica-works). T
 | `server/` | API, authentication, task scheduling, integrations, CLI, and daemon | Go, Chi, sqlc, gorilla/websocket |
 | `apps/web/` | Browser client and landing page | Next.js App Router |
 | `apps/desktop/` | Desktop client and local process management | Electron, electron-vite |
-| `apps/mobile/` | Standalone iOS client | Expo, React Native |
 | `apps/docs/` | Multilingual documentation site | Next.js, Fumadocs |
 | `packages/core/` | API client, types, queries, mutations, and platform-independent business logic | TanStack Query, Zustand |
 | `packages/ui/` | Foundational UI with no business logic | shadcn, Base UI |
@@ -53,8 +52,6 @@ packages/views/issues/     pages and business components
 apps/web/platform/         Next.js routing adapter
 apps/desktop/.../platform/ Electron routing adapter
 ```
-
-Mobile does not reuse these React pages. It may import types and pure functions from `@multica/core`, but it owns its UI, query keys, state, realtime subscriptions, and release process.
 
 ## Frontend state
 

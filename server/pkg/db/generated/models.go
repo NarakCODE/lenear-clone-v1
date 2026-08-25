@@ -497,6 +497,22 @@ type ContactSalesInquiry struct {
 	CreatedAt       pgtype.Timestamptz `json:"created_at"`
 }
 
+type Cycle struct {
+	ID            pgtype.UUID        `json:"id"`
+	WorkspaceID   pgtype.UUID        `json:"workspace_id"`
+	TeamID        pgtype.UUID        `json:"team_id"`
+	Number        int32              `json:"number"`
+	Name          string             `json:"name"`
+	Description   string             `json:"description"`
+	StartDate     pgtype.Timestamptz `json:"start_date"`
+	EndDate       pgtype.Timestamptz `json:"end_date"`
+	CompletedAt   pgtype.Timestamptz `json:"completed_at"`
+	Status        string             `json:"status"`
+	AutoArchiveAt pgtype.Timestamptz `json:"auto_archive_at"`
+	CreatedAt     pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt     pgtype.Timestamptz `json:"updated_at"`
+}
+
 type DaemonConnection struct {
 	ID              pgtype.UUID        `json:"id"`
 	AgentID         pgtype.UUID        `json:"agent_id"`
@@ -671,6 +687,9 @@ type Issue struct {
 	Metadata           []byte             `json:"metadata"`
 	Stage              pgtype.Int4        `json:"stage"`
 	Properties         []byte             `json:"properties"`
+	TeamID             pgtype.UUID        `json:"team_id"`
+	CycleID            pgtype.UUID        `json:"cycle_id"`
+	Estimate           pgtype.Float8      `json:"estimate"`
 }
 
 type IssueDependency struct {
@@ -738,6 +757,7 @@ type IssueStatus struct {
 	ArchivedAt  pgtype.Timestamptz `json:"archived_at"`
 	CreatedAt   pgtype.Timestamptz `json:"created_at"`
 	UpdatedAt   pgtype.Timestamptz `json:"updated_at"`
+	TeamID      pgtype.UUID        `json:"team_id"`
 }
 
 type IssueSubscriber struct {
@@ -1147,6 +1167,13 @@ type ProjectResource struct {
 	CreatedBy    pgtype.UUID        `json:"created_by"`
 }
 
+type ProjectTeam struct {
+	ProjectID   pgtype.UUID        `json:"project_id"`
+	TeamID      pgtype.UUID        `json:"team_id"`
+	WorkspaceID pgtype.UUID        `json:"workspace_id"`
+	CreatedAt   pgtype.Timestamptz `json:"created_at"`
+}
+
 type QuickAction struct {
 	ID            pgtype.UUID        `json:"id"`
 	WorkspaceID   pgtype.UUID        `json:"workspace_id"`
@@ -1336,6 +1363,32 @@ type TaskUsageHourlyRollupState struct {
 	LastRunFinishedAt pgtype.Timestamptz `json:"last_run_finished_at"`
 	LastRunRows       int64              `json:"last_run_rows"`
 	LastError         pgtype.Text        `json:"last_error"`
+}
+
+type Team struct {
+	ID                 pgtype.UUID        `json:"id"`
+	WorkspaceID        pgtype.UUID        `json:"workspace_id"`
+	Name               string             `json:"name"`
+	Key                string             `json:"key"`
+	Description        string             `json:"description"`
+	Icon               pgtype.Text        `json:"icon"`
+	Color              pgtype.Text        `json:"color"`
+	IssueCounter       int32              `json:"issue_counter"`
+	CyclesEnabled      bool               `json:"cycles_enabled"`
+	CycleDurationWeeks int32              `json:"cycle_duration_weeks"`
+	ArchivedAt         pgtype.Timestamptz `json:"archived_at"`
+	CreatedAt          pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt          pgtype.Timestamptz `json:"updated_at"`
+}
+
+type TeamMember struct {
+	ID          pgtype.UUID        `json:"id"`
+	WorkspaceID pgtype.UUID        `json:"workspace_id"`
+	TeamID      pgtype.UUID        `json:"team_id"`
+	UserID      pgtype.UUID        `json:"user_id"`
+	Role        string             `json:"role"`
+	CreatedAt   pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt   pgtype.Timestamptz `json:"updated_at"`
 }
 
 type User struct {

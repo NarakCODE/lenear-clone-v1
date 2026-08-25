@@ -35,9 +35,8 @@ Multica のコードを書く、翻訳を変更する、あるいは中国語の
 | `packages/views` | `core/`, `ui/` | `next/*`, `react-router-dom`, stores |
 | `apps/web/platform/` | `next/*` | 他のアプリ |
 | `apps/desktop/.../platform/` | `react-router-dom`, electron | 他のアプリ |
-| `apps/mobile/` | `@multica/core` の型と純粋関数 | Web/Desktop の React ページ、store、プラットフォーム実装 |
 
-両方のアプリに同じロジックが現れる場合は、必ず共有パッケージに抽出しなければなりません。「ささいな」重複という例外はありません。Mobile は独自の UI、データ層、リリースフローを持ち、型と純粋関数だけを共有します。
+両方のアプリに同じロジックが現れる場合は、必ず共有パッケージに抽出しなければなりません。「ささいな」重複という例外はありません。
 
 ### ファイルとコンポーネント
 

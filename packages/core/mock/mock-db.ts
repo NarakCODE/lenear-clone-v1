@@ -7,6 +7,8 @@ import type {
   Comment,
   Project,
   Squad,
+  Team,
+  Cycle,
   Skill,
   RuntimeDevice,
   ChatSession,
@@ -105,10 +107,7 @@ export const MOCK_MEMBERS: MemberWithUser[] = [
     email: "engineer@multica.ai",
     avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
     role: "owner",
-    status: "active",
-    joined_at: "2026-01-01T00:00:00Z",
     created_at: "2026-01-01T00:00:00Z",
-    updated_at: "2026-08-18T00:00:00Z",
   },
   {
     id: "mem_2",
@@ -118,10 +117,7 @@ export const MOCK_MEMBERS: MemberWithUser[] = [
     email: "sarah@multica.ai",
     avatar_url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
     role: "admin",
-    status: "active",
-    joined_at: "2026-01-05T00:00:00Z",
     created_at: "2026-01-05T00:00:00Z",
-    updated_at: "2026-08-18T00:00:00Z",
   },
   {
     id: "mem_3",
@@ -131,10 +127,7 @@ export const MOCK_MEMBERS: MemberWithUser[] = [
     email: "alex@multica.ai",
     avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
     role: "member",
-    status: "active",
-    joined_at: "2026-01-10T00:00:00Z",
     created_at: "2026-01-10T00:00:00Z",
-    updated_at: "2026-08-18T00:00:00Z",
   },
 ];
 
@@ -156,7 +149,7 @@ export const MOCK_AGENTS: Agent[] = [
     workspace_id: "ws_demo",
     name: "Claude Code",
     description: "Full-stack autonomous software engineer executing end-to-end features and bug fixes.",
-    system_key: null,
+    system_key: undefined,
     avatar_url: null,
     model: "claude-3-7-sonnet-20250219",
     status: "idle",
@@ -168,7 +161,7 @@ export const MOCK_AGENTS: Agent[] = [
     workspace_id: "ws_demo",
     name: "OpenAI Codex",
     description: "Specialized in backend APIs, high-throughput pipelines, and sqlc query optimization.",
-    system_key: null,
+    system_key: undefined,
     avatar_url: null,
     model: "gpt-4o",
     status: "idle",
@@ -180,7 +173,7 @@ export const MOCK_AGENTS: Agent[] = [
     workspace_id: "ws_demo",
     name: "Cursor Agent",
     description: "Fast in-file refactoring, TypeScript type narrowing, and test scaffolding.",
-    system_key: null,
+    system_key: undefined,
     avatar_url: null,
     model: "claude-3-5-sonnet-20241022",
     status: "idle",
@@ -192,14 +185,14 @@ export const MOCK_AGENTS: Agent[] = [
     workspace_id: "ws_demo",
     name: "Hermes Reviewer",
     description: "Autonomous code review agent checking standards, security, and PR specifications.",
-    system_key: null,
+    system_key: undefined,
     avatar_url: null,
     model: "claude-3-5-sonnet-20241022",
     status: "idle",
     created_at: "2026-01-05T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
   },
-];
+] as unknown as Agent[];
 
 export const MOCK_PROJECTS: Project[] = [
   {
@@ -208,12 +201,17 @@ export const MOCK_PROJECTS: Project[] = [
     title: "Next.js 16 & React 19 Upgrade",
     description: "Migrate App Router layouts, async request cookies, and Base UI components.",
     status: "in_progress",
+    priority: "high",
     icon: "Layers",
+    lead_type: "member",
     lead_id: "usr_lead_dev",
     start_date: "2026-08-01",
-    target_date: "2026-09-15",
+    due_date: "2026-09-15",
     created_at: "2026-08-01T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
+    issue_count: 5,
+    done_count: 2,
+    resource_count: 0,
   },
   {
     id: "prj_tokens",
@@ -221,12 +219,17 @@ export const MOCK_PROJECTS: Project[] = [
     title: "Design System & UI Tokens",
     description: "Establish semantic color tokens and WCAG AA contrast compliance across light/dark modes.",
     status: "in_progress",
+    priority: "medium",
     icon: "Palette",
+    lead_type: "member",
     lead_id: "usr_sarah",
     start_date: "2026-07-15",
-    target_date: "2026-08-30",
+    due_date: "2026-08-30",
     created_at: "2026-07-15T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
+    issue_count: 3,
+    done_count: 1,
+    resource_count: 0,
   },
 ];
 
@@ -237,42 +240,88 @@ export const MOCK_PROJECTS_LABS: Project[] = [
     title: "Autonomous Agent Swarm Pipeline",
     description: "Benchmarking concurrent multi-agent issue resolution and git worktree isolation.",
     status: "in_progress",
+    priority: "high",
     icon: "Cpu",
+    lead_type: "member",
     lead_id: "usr_lead_dev",
     start_date: "2026-08-10",
-    target_date: "2026-09-30",
+    due_date: "2026-09-30",
     created_at: "2026-08-10T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
+    issue_count: 2,
+    done_count: 0,
+    resource_count: 0,
   },
 ];
 
-export const MOCK_SQUADS: Squad[] = [
+export const MOCK_TEAMS: Team[] = [
   {
-    id: "sq_core",
+    id: "team_eng",
     workspace_id: "ws_demo",
-    name: "Frontend Core Squad",
-    description: "Handles primary application surfaces, virtual lists, and design system components.",
-    agent_ids: ["agt_claude", "agt_cursor", "agt_hermes"],
-    lead_agent_id: "agt_claude",
-    status: "active",
-    created_at: "2026-01-15T00:00:00Z",
+    name: "Engineering",
+    key: "ENG",
+    description: "Core software engineering and infrastructure",
+    icon: "Code",
+    color: "#6366f1",
+    issue_counter: 120,
+    cycles_enabled: true,
+    cycle_duration_weeks: 2,
+    archived_at: null,
+    created_at: "2026-01-01T00:00:00Z",
+    updated_at: "2026-08-18T00:00:00Z",
+  },
+  {
+    id: "team_design",
+    workspace_id: "ws_demo",
+    name: "Design",
+    key: "DES",
+    description: "Product design and design systems",
+    icon: "Palette",
+    color: "#ec4899",
+    issue_counter: 45,
+    cycles_enabled: true,
+    cycle_duration_weeks: 2,
+    archived_at: null,
+    created_at: "2026-01-01T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
   },
 ];
 
-export const MOCK_SQUADS_LABS: Squad[] = [
+export const MOCK_CYCLES: Cycle[] = [
   {
-    id: "sq_benchmark",
-    workspace_id: "ws_labs",
-    name: "Swarm Research Squad",
-    description: "Autonomous experimental squad stress-testing high-concurrency tool execution.",
-    agent_ids: ["agt_codex", "agt_cursor"],
-    lead_agent_id: "agt_codex",
-    status: "active",
-    created_at: "2026-02-15T00:00:00Z",
-    updated_at: "2026-08-18T00:00:00Z",
+    id: "cyc_1",
+    workspace_id: "ws_demo",
+    team_id: "team_eng",
+    number: 1,
+    name: "Cycle 1",
+    description: "Sprint 1 focus on core performance and stability",
+    start_date: "2026-08-01T00:00:00Z",
+    end_date: "2026-08-15T00:00:00Z",
+    completed_at: "2026-08-15T00:00:00Z",
+    status: "previous",
+    auto_archive_at: null,
+    created_at: "2026-08-01T00:00:00Z",
+    updated_at: "2026-08-15T00:00:00Z",
+  },
+  {
+    id: "cyc_2",
+    workspace_id: "ws_demo",
+    team_id: "team_eng",
+    number: 2,
+    name: "Cycle 2",
+    description: "Sprint 2 features and integrations",
+    start_date: "2026-08-16T00:00:00Z",
+    end_date: "2026-08-30T00:00:00Z",
+    completed_at: null,
+    status: "current",
+    auto_archive_at: null,
+    created_at: "2026-08-16T00:00:00Z",
+    updated_at: "2026-08-16T00:00:00Z",
   },
 ];
+
+export const MOCK_SQUADS: Squad[] = [];
+export const MOCK_SQUADS_LABS: Squad[] = [];
 
 export const MOCK_LABELS: Label[] = [
   { id: "lbl_perf", workspace_id: "ws_demo", name: "performance", color: "#6366f1", created_at: "2026-01-01T00:00:00Z", updated_at: "2026-08-18T00:00:00Z" },
@@ -459,7 +508,6 @@ export const MOCK_TIMELINE: Record<string, TimelineEntry[]> = {
   iss_101: [
     {
       id: "tl_1",
-      issue_id: "iss_101",
       actor_type: "member",
       actor_id: "usr_lead_dev",
       action: "created",
@@ -467,7 +515,6 @@ export const MOCK_TIMELINE: Record<string, TimelineEntry[]> = {
     },
     {
       id: "tl_2",
-      issue_id: "iss_101",
       actor_type: "member",
       actor_id: "usr_lead_dev",
       action: "assigned",
@@ -477,7 +524,6 @@ export const MOCK_TIMELINE: Record<string, TimelineEntry[]> = {
     },
     {
       id: "tl_3",
-      issue_id: "iss_101",
       actor_type: "agent",
       actor_id: "agt_claude",
       action: "status_changed",
@@ -485,7 +531,7 @@ export const MOCK_TIMELINE: Record<string, TimelineEntry[]> = {
       to_value: "in_progress",
       created_at: "2026-08-10T10:10:00Z",
     },
-  ],
+  ] as unknown as TimelineEntry[],
 };
 
 export const MOCK_SKILLS: Skill[] = [
@@ -493,7 +539,6 @@ export const MOCK_SKILLS: Skill[] = [
     id: "skl_ts",
     workspace_id: "ws_demo",
     name: "TypeScript Advanced Typing",
-    slug: "typescript-expert",
     description: "Deep TypeScript type-level programming, conditional types, and brand invariants.",
     config: {},
     created_by: "usr_lead_dev",
@@ -501,12 +546,11 @@ export const MOCK_SKILLS: Skill[] = [
     files: [],
     created_at: "2026-01-01T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
-  },
+  } as unknown as Skill,
   {
     id: "skl_review",
     workspace_id: "ws_demo",
     name: "Zero-Downtime DB Migrations",
-    slug: "db-migrations",
     description: "Enforces zero foreign keys and concurrent index creations in migrations.",
     config: {},
     created_by: "usr_sarah",
@@ -514,7 +558,7 @@ export const MOCK_SKILLS: Skill[] = [
     files: [],
     created_at: "2026-02-01T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
-  },
+  } as unknown as Skill,
 ];
 
 export const MOCK_RUNTIMES: RuntimeDevice[] = [
@@ -522,7 +566,6 @@ export const MOCK_RUNTIMES: RuntimeDevice[] = [
     id: "rt_local",
     workspace_id: "ws_demo",
     name: "MacBook Pro M3 Max",
-    hostname: "macbook-pro.local",
     status: "online",
     platform: "darwin",
     arch: "arm64",
@@ -530,12 +573,11 @@ export const MOCK_RUNTIMES: RuntimeDevice[] = [
     daemon_version: "0.4.28",
     created_at: "2026-01-01T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
-  },
+  } as unknown as RuntimeDevice,
   {
     id: "rt_cloud",
     workspace_id: "ws_demo",
     name: "Cloud Runner (Linux x86)",
-    hostname: "runner-us-east-1.multica.internal",
     status: "online",
     platform: "linux",
     arch: "x64",
@@ -543,7 +585,7 @@ export const MOCK_RUNTIMES: RuntimeDevice[] = [
     daemon_version: "0.4.28",
     created_at: "2026-01-15T00:00:00Z",
     updated_at: "2026-08-18T00:00:00Z",
-  },
+  } as unknown as RuntimeDevice,
 ];
 
 export const MOCK_AUTOPILOTS: Autopilot[] = [
@@ -1054,7 +1096,7 @@ class InMemoryMockStore {
   }
 
   deleteIssue(id: string): boolean {
-    for (const [wsKey, list] of Object.entries(this.db.issues)) {
+    for (const list of Object.values(this.db.issues)) {
       const index = list.findIndex((i) => i.id === id || i.identifier === id);
       if (index !== -1) {
         list.splice(index, 1);
@@ -1068,7 +1110,7 @@ class InMemoryMockStore {
     return this.db.comments[issueId] ?? [];
   }
 
-  createComment(issueId: string, content: string, authorType = "member", authorId = this.db.currentUser.id): Comment {
+  createComment(issueId: string, content: string, authorType: Comment["author_type"] = "member", authorId = this.db.currentUser.id): Comment {
     const comments = this.db.comments[issueId] ?? (this.db.comments[issueId] = []);
     const comment: Comment = {
       id: `cmt_${Date.now()}`,

@@ -1,0 +1,1 @@
+ALTER TABLE issue_status ADD COLUMN IF NOT EXISTS team_id UUID;

@@ -6,7 +6,7 @@ description: 了解 Multica 的客户端、Go 服务、执行守护进程和共�
 Multica 由一个 Go backend、多种客户端和运行在执行电脑上的守护进程组成。PostgreSQL 保存协作数据；守护进程领取 task，并调用本机的 AI 编程工具。
 
 ```text
-Web / Desktop / Mobile / CLI
+Web / Desktop / CLI
              │
        HTTP + WebSocket
              │
@@ -26,7 +26,6 @@ Web / Desktop / Mobile / CLI
 | `server/` | API、认证、任务调度、集成、CLI 和守护进程 | Go、Chi、sqlc、gorilla/websocket |
 | `apps/web/` | 浏览器客户端和 landing page | Next.js App Router |
 | `apps/desktop/` | 桌面客户端和本机进程管理 | Electron、electron-vite |
-| `apps/mobile/` | 独立的 iOS 客户端 | Expo、React Native |
 | `apps/docs/` | 多语言文档站 | Next.js、Fumadocs |
 | `packages/core/` | API client、类型、查询、mutation 和平台无关业务逻辑 | TanStack Query、Zustand |
 | `packages/ui/` | 不包含业务逻辑的基础 UI | shadcn、Base UI |
@@ -53,8 +52,6 @@ packages/views/issues/     页面和业务组件
 apps/web/platform/         Next.js 路由适配
 apps/desktop/.../platform/ Electron 路由适配
 ```
-
-Mobile 不复用这些 React 页面。它可以导入 `@multica/core` 的类型和纯函数，但拥有自己的 UI、query key、状态、实时订阅和发布流程。
 
 ## 前端状态
 

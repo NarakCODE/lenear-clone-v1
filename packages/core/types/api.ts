@@ -2,7 +2,6 @@ import type { Issue, IssueMetadata, IssueStatus, IssueStatusCategory, IssuePrior
 import type { MemberRole } from "./workspace";
 import type { Project } from "./project";
 
-// Issue API
 export interface CreateIssueRequest {
   title: string;
   description?: string;
@@ -12,6 +11,9 @@ export interface CreateIssueRequest {
   assignee_id?: string;
   parent_issue_id?: string;
   project_id?: string;
+  team_id?: string;
+  cycle_id?: string;
+  estimate?: number;
   /** Ordered stage (>= 1) grouping this sub-issue under its parent. */
   stage?: number;
   start_date?: string;
@@ -37,6 +39,9 @@ export interface UpdateIssueRequest {
   due_date?: string | null;
   parent_issue_id?: string | null;
   project_id?: string | null;
+  team_id?: string | null;
+  cycle_id?: string | null;
+  estimate?: number | null;
   /** Ordered stage (>= 1); null clears it (unstaged). */
   stage?: number | null;
   /** Attachment IDs to bind to this issue alongside the description update.

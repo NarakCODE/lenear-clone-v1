@@ -53,6 +53,9 @@ type IssueResponse struct {
 	CreatorID      string  `json:"creator_id"`
 	ParentIssueID  *string `json:"parent_issue_id"`
 	ProjectID      *string `json:"project_id"`
+	TeamID         *string `json:"team_id,omitempty"`
+	CycleID        *string `json:"cycle_id,omitempty"`
+	Estimate       *float64 `json:"estimate,omitempty"`
 	Position       float64 `json:"position"`
 	// Stage groups sub-issues under the same parent into ordered barrier
 	// groups (null = unstaged). See issue_child_done.go for how a closed
@@ -287,6 +290,9 @@ func issueToResponse(i db.Issue, issuePrefix string) IssueResponse {
 		CreatorID:      uuidToString(i.CreatorID),
 		ParentIssueID:  uuidToPtr(i.ParentIssueID),
 		ProjectID:      uuidToPtr(i.ProjectID),
+		TeamID:         uuidToPtr(i.TeamID),
+		CycleID:        uuidToPtr(i.CycleID),
+		Estimate:       float8ToPtr(i.Estimate),
 		Position:       i.Position,
 		Stage:          int4ToPtr(i.Stage),
 		StartDate:      dateToPtr(i.StartDate),
@@ -2670,6 +2676,9 @@ type CreateIssueRequest struct {
 	AssigneeID    *string  `json:"assignee_id"`
 	ParentIssueID *string  `json:"parent_issue_id"`
 	ProjectID     *string  `json:"project_id"`
+	TeamID        *string  `json:"team_id,omitempty"`
+	CycleID       *string  `json:"cycle_id,omitempty"`
+	Estimate      *float64 `json:"estimate,omitempty"`
 	Stage         *int32   `json:"stage,omitempty"`
 	StartDate     *string  `json:"start_date"`
 	DueDate       *string  `json:"due_date"`
@@ -2771,6 +2780,30 @@ func (h *Handler) CreateIssue(w http.ResponseWriter, r *http.Request) {
 		}
 		parentIssueID = id
 	}
+
+	var teamID pgtype.UUID
+	if req.TeamID != nil {
+		id, ok := parseUUIDOrBadRequest(w, *req.TeamID, "team_id")
+		if !ok {
+			return
+		}
+		teamID = id
+	}
+
+	var cycleID pgtype.UUID
+	if req.CycleID != nil {
+		id, ok := parseUUIDOrBadRequest(w, *req.CycleID, "cycle_id")
+		if !ok {
+			return
+		}
+		cycleID = id
+	}
+
+	var estimate pgtype.Float8
+	if req.Estimate != nil {
+		estimate = pgtype.Float8{Float64: *req.Estimate, Valid: true}
+	}
+
 	// Cross-workspace parent / project existence is enforced inside
 	// IssueService.Create (atomically with the create), so every entry
 	// point — HTTP, Lark, future MCP — gets the same boundary check
@@ -2970,6 +3003,14 @@ func (h *Handler) CreateIssue(w http.ResponseWriter, r *http.Request) {
 	}
 
 	issue := res.Issue
+	if teamID.Valid || cycleID.Valid || estimate.Valid {
+		_, _ = h.DB.Exec(r.Context(),
+			"UPDATE issue SET team_id = COALESCE($1, team_id), cycle_id = COALESCE($2, cycle_id), estimate = COALESCE($3, estimate) WHERE id = $4",
+			teamID, cycleID, estimate, issue.ID)
+		issue.TeamID = teamID
+		issue.CycleID = cycleID
+		issue.Estimate = estimate
+	}
 	slog.Info("issue created", append(logger.RequestAttrs(r), "issue_id", uuidToString(issue.ID), "title", issue.Title, "status", issue.Status, "workspace_id", workspaceID)...)
 
 	resp := issueToResponse(issue, prefix)
@@ -3001,6 +3042,9 @@ type UpdateIssueRequest struct {
 	DueDate         *string  `json:"due_date"`
 	ParentIssueID   *string  `json:"parent_issue_id"`
 	ProjectID       *string  `json:"project_id"`
+	TeamID          *string  `json:"team_id,omitempty"`
+	CycleID         *string  `json:"cycle_id,omitempty"`
+	Estimate        *float64 `json:"estimate,omitempty"`
 	Stage           *int32   `json:"stage"`
 	// AttachmentIDs lets the description editor bind newly uploaded files to
 	// this issue so they surface in `GET /api/issues/:id/attachments` and the
@@ -3349,6 +3393,39 @@ func (h *Handler) UpdateIssue(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	var teamIDTouched bool
+	var teamIDVal pgtype.UUID
+	if _, ok := rawFields["team_id"]; ok {
+		teamIDTouched = true
+		if req.TeamID != nil {
+			if id, ok := parseUUIDOrBadRequest(w, *req.TeamID, "team_id"); ok {
+				teamIDVal = id
+			} else {
+				return
+			}
+		}
+	}
+	var cycleIDTouched bool
+	var cycleIDVal pgtype.UUID
+	if _, ok := rawFields["cycle_id"]; ok {
+		cycleIDTouched = true
+		if req.CycleID != nil {
+			if id, ok := parseUUIDOrBadRequest(w, *req.CycleID, "cycle_id"); ok {
+				cycleIDVal = id
+			} else {
+				return
+			}
+		}
+	}
+	var estimateTouched bool
+	var estimateVal pgtype.Float8
+	if _, ok := rawFields["estimate"]; ok {
+		estimateTouched = true
+		if req.Estimate != nil {
+			estimateVal = pgtype.Float8{Float64: *req.Estimate, Valid: true}
+		}
+	}
+
 	attachmentIDs, ok := parseUUIDSliceOrBadRequest(w, req.AttachmentIDs, "attachment_ids")
 	if !ok {
 		return
@@ -3377,6 +3454,21 @@ func (h *Handler) UpdateIssue(w http.ResponseWriter, r *http.Request) {
 		slog.Warn("update issue failed", append(logger.RequestAttrs(r), "error", err, "issue_id", id, "workspace_id", workspaceID)...)
 		writeError(w, http.StatusInternalServerError, "failed to update issue: "+err.Error())
 		return
+	}
+
+	if teamIDTouched || cycleIDTouched || estimateTouched {
+		if teamIDTouched {
+			_, _ = h.DB.Exec(r.Context(), "UPDATE issue SET team_id = $1 WHERE id = $2", teamIDVal, issue.ID)
+			issue.TeamID = teamIDVal
+		}
+		if cycleIDTouched {
+			_, _ = h.DB.Exec(r.Context(), "UPDATE issue SET cycle_id = $1 WHERE id = $2", cycleIDVal, issue.ID)
+			issue.CycleID = cycleIDVal
+		}
+		if estimateTouched {
+			_, _ = h.DB.Exec(r.Context(), "UPDATE issue SET estimate = $1 WHERE id = $2", estimateVal, issue.ID)
+			issue.Estimate = estimateVal
+		}
 	}
 
 	if len(attachmentIDs) > 0 {

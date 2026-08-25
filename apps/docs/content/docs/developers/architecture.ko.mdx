@@ -6,7 +6,7 @@ description: Multica의 클라이언트, Go 서비스, 실행 데몬, 공유 프
 Multica는 Go backend, 여러 클라이언트, 실행 컴퓨터에서 동작하는 데몬으로 구성됩니다. PostgreSQL이 협업 데이터를 저장하고 데몬이 태스크를 가져가 로컬 AI 코딩 도구를 호출합니다.
 
 ```text
-Web / Desktop / Mobile / CLI
+Web / Desktop / CLI
              │
        HTTP + WebSocket
              │
@@ -26,7 +26,6 @@ Web / Desktop / Mobile / CLI
 | `server/` | API, 인증, 태스크 스케줄링, 연동, CLI, 데몬 | Go, Chi, sqlc, gorilla/websocket |
 | `apps/web/` | 브라우저 클라이언트와 landing page | Next.js App Router |
 | `apps/desktop/` | 데스크톱 클라이언트와 로컬 프로세스 관리 | Electron, electron-vite |
-| `apps/mobile/` | 독립적인 iOS 클라이언트 | Expo, React Native |
 | `apps/docs/` | 다국어 문서 사이트 | Next.js, Fumadocs |
 | `packages/core/` | API client, 유형, query, mutation, 플랫폼 독립 비즈니스 로직 | TanStack Query, Zustand |
 | `packages/ui/` | 비즈니스 로직이 없는 기본 UI | shadcn, Base UI |
@@ -53,8 +52,6 @@ packages/views/issues/     페이지와 비즈니스 컴포넌트
 apps/web/platform/         Next.js 라우팅 adapter
 apps/desktop/.../platform/ Electron 라우팅 adapter
 ```
-
-Mobile은 이 React 페이지를 재사용하지 않습니다. `@multica/core`의 유형과 순수 함수를 import할 수 있지만 UI, query key, 상태, 실시간 구독, 출시 절차는 별도로 소유합니다.
 
 ## 프런트엔드 상태
 

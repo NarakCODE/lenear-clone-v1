@@ -87,7 +87,7 @@ issue — so nobody reconstructs context, and nothing ships without a human sayi
 - **[Roles](https://multica.ai/docs/members-roles) and [access scopes](https://multica.ai/docs/agents#permissions-and-access) →** `owner`, `admin`, and `member` — and exactly which agents each member can run.
 - **[Security model](https://multica.ai/docs/security-model) →** What an agent can reach, and what it can't.
 - **[Slack, Lark, DingTalk, and WeCom](https://multica.ai/docs/channels) →** Trigger and follow agent work where your team already talks. DingTalk and WeCom are community-maintained.
-- **[Web, desktop, and mobile](https://multica.ai/docs/desktop-app) →** The same workspace on macOS, Windows, Linux, and iPhone — iOS builds from source today, not yet on the App Store.
+- **[Web and desktop](https://multica.ai/docs/desktop-app) →** The same workspace on macOS, Windows, and Linux.
 - **[CLI and API](https://multica.ai/docs/cli) →** Every surface is scriptable. Agents drive Multica through the same CLI you do.
 
 ---
@@ -231,8 +231,7 @@ make dev
 installs dependencies, sets up the database, runs migrations, and starts every service.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow, worktree support, testing, and
-troubleshooting. The iOS client lives in [`apps/mobile/`](apps/mobile/) — its
-[README](apps/mobile/README.md) covers building it onto your own iPhone.
+troubleshooting.
 
 We release most weekdays, so `main` moves quickly — pull often.
 

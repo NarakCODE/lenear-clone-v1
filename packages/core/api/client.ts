@@ -120,6 +120,16 @@ import type {
   IssueStatusEntry,
   CreateIssueStatusRequest,
   UpdateIssueStatusRequest,
+  Team,
+  TeamMember,
+  CreateTeamRequest,
+  UpdateTeamRequest,
+  AddTeamMemberRequest,
+  UpdateTeamMemberRoleRequest,
+  Cycle,
+  CycleProgress,
+  CreateCycleRequest,
+  UpdateCycleRequest,
   IssueLabelsResponse,
   LabelResourceType,
   ResourceLabelsResponse,
@@ -4212,5 +4222,107 @@ export class ApiClient {
       EMPTY_REDEEM_WECOM_BINDING_TOKEN_RESPONSE,
       { endpoint: "POST /api/wecom/binding/redeem" },
     );
+  }
+
+  // ---------------------------------------------------------------------
+  // Teams API
+  // ---------------------------------------------------------------------
+
+  async listTeams(): Promise<Team[]> {
+    return this.fetch<Team[]>("/api/teams");
+  }
+
+  async getTeam(id: string): Promise<Team> {
+    return this.fetch<Team>(`/api/teams/${id}`);
+  }
+
+  async createTeam(data: CreateTeamRequest): Promise<Team> {
+    return this.fetch<Team>("/api/teams", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateTeam(id: string, data: UpdateTeamRequest): Promise<Team> {
+    return this.fetch<Team>(`/api/teams/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async archiveTeam(id: string): Promise<Team> {
+    return this.fetch<Team>(`/api/teams/${id}/archive`, {
+      method: "POST",
+    });
+  }
+
+  async deleteTeam(id: string): Promise<void> {
+    await this.fetch(`/api/teams/${id}`, { method: "DELETE" });
+  }
+
+  async listTeamMembers(teamId: string): Promise<TeamMember[]> {
+    return this.fetch<TeamMember[]>(`/api/teams/${teamId}/members`);
+  }
+
+  async addTeamMember(teamId: string, data: AddTeamMemberRequest): Promise<void> {
+    await this.fetch(`/api/teams/${teamId}/members`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateTeamMemberRole(
+    teamId: string,
+    userId: string,
+    data: UpdateTeamMemberRoleRequest,
+  ): Promise<void> {
+    await this.fetch(`/api/teams/${teamId}/members/${userId}/role`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async removeTeamMember(teamId: string, userId: string): Promise<void> {
+    await this.fetch(`/api/teams/${teamId}/members/${userId}`, {
+      method: "DELETE",
+    });
+  }
+
+  // ---------------------------------------------------------------------
+  // Cycles API
+  // ---------------------------------------------------------------------
+
+  async listCycles(teamId: string): Promise<Cycle[]> {
+    return this.fetch<Cycle[]>(`/api/teams/${teamId}/cycles`);
+  }
+
+  async getCurrentCycle(teamId: string): Promise<Cycle | null> {
+    return this.fetch<Cycle | null>(`/api/teams/${teamId}/cycles/current`);
+  }
+
+  async getCycle(id: string): Promise<Cycle> {
+    return this.fetch<Cycle>(`/api/cycles/${id}`);
+  }
+
+  async createCycle(teamId: string, data: CreateCycleRequest): Promise<Cycle> {
+    return this.fetch<Cycle>(`/api/teams/${teamId}/cycles`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateCycle(id: string, data: UpdateCycleRequest): Promise<Cycle> {
+    return this.fetch<Cycle>(`/api/cycles/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteCycle(id: string): Promise<void> {
+    await this.fetch(`/api/cycles/${id}`, { method: "DELETE" });
+  }
+
+  async getCycleProgress(id: string): Promise<CycleProgress> {
+    return this.fetch<CycleProgress>(`/api/cycles/${id}/progress`);
   }
 }

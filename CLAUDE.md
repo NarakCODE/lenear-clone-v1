@@ -18,7 +18,6 @@ Multica is an AI-native task management platform for small teams, with agents as
 - `server/`: Go backend, Chi router, sqlc, gorilla/websocket.
 - `apps/web/`: Next.js App Router.
 - `apps/desktop/`: Electron desktop app.
-- `apps/mobile/`: Expo / React Native iOS app. Read `apps/mobile/CLAUDE.md` before touching it.
 - `apps/docs/`: Fumadocs documentation site.
 - `packages/core/`: headless business logic, API client, React Query hooks, Zustand stores.
 - `packages/ui/`: atomic UI components only.
@@ -56,7 +55,7 @@ These are hard constraints:
 - `apps/web/platform/`: only place for Next.js navigation/platform APIs.
 - `apps/desktop/src/renderer/src/platform/`: only place for `react-router-dom` navigation wiring.
 - Every workspace under `apps/` and `packages/` must declare directly imported external packages in its own `package.json`.
-- Shared dependencies use `catalog:` from `pnpm-workspace.yaml`; `apps/mobile/` pins Expo/React Native related versions directly.
+- Shared dependencies use `catalog:` from `pnpm-workspace.yaml`.
 
 ## Sharing Rules
 
@@ -171,16 +170,6 @@ More desktop constraints:
 - Workspace delete must await the server before navigation/cleanup. Workspace leave currently clears/navigates before mutation only to avoid the `member:removed` realtime race; treat that as known debt, not a reusable pattern.
 - Cross-workspace navigation must go through the navigation adapter so it can call `switchWorkspace(slug, targetPath)`.
 - Full-window desktop views outside the dashboard shell must mount `<DragStrip />` from `@multica/views/platform` as the first flex child. Interactive controls in the top 48px need `WebkitAppRegion: "no-drag"`.
-
-## Mobile Rules
-
-Read `apps/mobile/CLAUDE.md` before touching `apps/mobile/`. It contains the mandatory pre-flight process, import limits, parity rules, tech stack, UI rules, data helpers, realtime strategy, and mobile release flow.
-
-Root-level reminders:
-
-- Mobile shares only `@multica/core` types and pure functions.
-- Mobile must match web/desktop product semantics: counts, permissions, enums/transitions, and data identity.
-- Mobile may differ in UI/interaction when the phone context requires it.
 
 ## UI Rules
 
