@@ -112,12 +112,16 @@ export class MockRouter {
       return jsonResponse(mockDb.workspaces[0]);
     }
 
-    // 4. Members
+    // 4. Members & Invitations
     if (pathname.includes("/members") && method === "GET") {
       return jsonResponse(mockDb.getMembers(wsId));
     }
 
-    // 5. Agents & Runtimes
+    if (pathname.includes("/invitations")) {
+      return jsonResponse([]);
+    }
+
+    // 5. Agents & Presence
     if (pathname === "/api/agents/mika" && method === "POST") {
       const mika = mockDb.getAgents(wsId).find((a) => a.system_key === "mika") ?? mockDb.getAgents(wsId)[0];
       return jsonResponse({
@@ -128,6 +132,23 @@ export class MockRouter {
 
     if (pathname.endsWith("/agents") && method === "GET") {
       return jsonResponse(mockDb.getAgents(wsId));
+    }
+
+    if (pathname.endsWith("/agents") && method === "POST") {
+      const body = typeof init?.body === "string" ? JSON.parse(init.body) : init?.body;
+      const newAgent = {
+        id: `agt_${Date.now()}`,
+        workspace_id: wsId,
+        name: body.name || "New Agent",
+        description: body.description || "",
+        system_key: null,
+        avatar_url: null,
+        model: body.model || "claude-3-5-sonnet-20241022",
+        status: "idle" as const,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      return jsonResponse(newAgent);
     }
 
     const agentMatch = pathname.match(/\/agents\/([^/]+)$/);
@@ -142,8 +163,30 @@ export class MockRouter {
       return jsonResponse(mockDb.getSkills(wsId));
     }
 
+    if (pathname.includes("/agents/") && pathname.endsWith("/run-count")) {
+      return jsonResponse({ runs: 42 });
+    }
+
+    if (pathname.includes("/agents/") && pathname.endsWith("/env")) {
+      return jsonResponse({ env: { GITHUB_TOKEN: "••••••••" } });
+    }
+
+    if (pathname.includes("/agents/") && pathname.endsWith("/activity")) {
+      return jsonResponse([]);
+    }
+
     if (pathname.endsWith("/runtimes") && method === "GET") {
       return jsonResponse(mockDb.getRuntimes(wsId));
+    }
+
+    if (pathname.includes("/runtimes/") && pathname.endsWith("/usage")) {
+      return jsonResponse({ usage: [] });
+    }
+
+    const taskMsgsMatch = pathname.match(/\/tasks\/([^/]+)\/messages$/);
+    if (taskMsgsMatch && method === "GET") {
+      const taskId = taskMsgsMatch[1] ?? "";
+      return jsonResponse(mockDb.getTaskMessages(taskId));
     }
 
     if (
@@ -272,6 +315,10 @@ export class MockRouter {
       return jsonResponse({ issue: newIssue });
     }
 
+    if (pathname.endsWith("/issues/batch") || pathname.endsWith("/issues/batch-update")) {
+      return jsonResponse({ updated: 1 });
+    }
+
     // Issue Comments & Timeline
     const commentsMatch = pathname.match(/\/issues\/([^/]+)\/comments$/);
     if (commentsMatch) {
@@ -334,11 +381,37 @@ export class MockRouter {
       return jsonResponse({ projects: list, total: list.length });
     }
 
+    if (pathname.endsWith("/projects") && method === "POST") {
+      const body = typeof init?.body === "string" ? JSON.parse(init.body) : init?.body;
+      const newProj = {
+        id: `proj_${Date.now()}`,
+        workspace_id: wsId,
+        title: body.title || "New Project",
+        description: body.description || "",
+        status: "in_progress" as const,
+        icon: "Folder",
+        lead_id: mockDb.currentUser.id,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      return jsonResponse(newProj);
+    }
+
     const projectMatch = pathname.match(/\/projects\/([^/]+)$/);
     if (projectMatch && method === "GET") {
       const projId = projectMatch[1] ?? "";
       const project = mockDb.getProjects(wsId).find((p) => p.id === projId);
       return jsonResponse(project ?? mockDb.getProjects(wsId)[0]);
+    }
+
+    if (pathname.includes("/projects/") && pathname.endsWith("/issues")) {
+      const projId = pathname.split("/")[3] || "";
+      const issues = mockDb.getIssues(wsId).filter((i) => i.project_id === projId);
+      return jsonResponse({ issues, total: issues.length });
+    }
+
+    if (pathname.includes("/projects/") && pathname.endsWith("/activity")) {
+      return jsonResponse([]);
     }
 
     if (pathname.endsWith("/squads") && method === "GET") {
@@ -350,6 +423,10 @@ export class MockRouter {
       const sqId = squadMatch[1] ?? "";
       const squad = mockDb.getSquads(wsId).find((s) => s.id === sqId);
       return jsonResponse(squad ?? mockDb.getSquads(wsId)[0]);
+    }
+
+    if (pathname.includes("/squads/") && (pathname.endsWith("/members") || pathname.endsWith("/member-statuses"))) {
+      return jsonResponse([]);
     }
 
     if (pathname.endsWith("/skills") && method === "GET") {
@@ -367,6 +444,10 @@ export class MockRouter {
       return jsonResponse({ autopilots: mockDb.getAutopilots(wsId) });
     }
 
+    if (pathname.endsWith("/autopilots/preview-cron")) {
+      return jsonResponse({ next_runs: [new Date().toISOString()] });
+    }
+
     const autopilotMatch = pathname.match(/\/autopilots\/([^/]+)$/);
     if (autopilotMatch && method === "GET") {
       const apId = autopilotMatch[1] ?? "";
@@ -374,9 +455,24 @@ export class MockRouter {
       return jsonResponse(ap ?? mockDb.getAutopilots(wsId)[0]);
     }
 
+    if (pathname.includes("/autopilots/") && pathname.endsWith("/runs")) {
+      return jsonResponse({ runs: [], total: 0 });
+    }
+
     if (pathname.endsWith("/labels") && method === "GET") {
       const labels = mockDb.getLabels(wsId);
       return jsonResponse({ labels, total: labels.length });
+    }
+
+    if (pathname.includes("/properties") || pathname.includes("/custom-properties")) {
+      return jsonResponse({ properties: [] });
+    }
+
+    if (pathname.includes("/issue-views")) {
+      if (pathname.endsWith("/preferences")) {
+        return jsonResponse(null);
+      }
+      return jsonResponse([]);
     }
 
     if (pathname === "/api/inbox" && method === "GET") {
@@ -398,6 +494,14 @@ export class MockRouter {
     // 8. Chat
     if (pathname.endsWith("/chat/sessions") && method === "GET") {
       return jsonResponse(mockDb.getChatSessions(wsId));
+    }
+
+    if (pathname.endsWith("/chat/draft-restores") || pathname.endsWith("/chat/pending-tasks")) {
+      return jsonResponse({ restores: [], tasks: [] });
+    }
+
+    if (pathname.endsWith("/chat/has-pending-tasks")) {
+      return jsonResponse({ has_pending: false });
     }
 
     const chatMsgsMatch = pathname.match(/\/chat\/sessions\/([^/]+)\/messages$/);
@@ -432,11 +536,52 @@ export class MockRouter {
       return jsonResponse({ projects: results, total: results.length });
     }
 
-    // 10. Billing & Entitlements
+    // 10. Billing, Entitlements & Integrations
     if (pathname.includes("/billing")) {
       return jsonResponse({
         balance: { amount_cents: 25000, currency: "usd" },
         entitlements: { max_agents: 50, max_members: 20, max_runtimes: 10 },
+      });
+    }
+
+    if (pathname.includes("notification-preferences")) {
+      return jsonResponse({
+        email_notifications: true,
+        slack_notifications: false,
+        in_app_notifications: true,
+      });
+    }
+
+    if (
+      pathname.includes("/plugins/") ||
+      pathname.includes("/github/") ||
+      pathname.includes("/lark/") ||
+      pathname.includes("/dingtalk/") ||
+      pathname.includes("/wecom/") ||
+      pathname.includes("/personal-access-tokens") ||
+      pathname.includes("/workspace-mcp-servers") ||
+      pathname.includes("/pins")
+    ) {
+      return jsonResponse([]);
+    }
+
+    if (pathname.endsWith("/attachments") && method === "POST") {
+      return jsonResponse({
+        id: `att_${Date.now()}`,
+        workspace_id: wsId,
+        issue_id: null,
+        comment_id: null,
+        chat_session_id: null,
+        chat_message_id: null,
+        uploader_type: "user",
+        uploader_id: mockDb.currentUser.id,
+        filename: "upload.png",
+        size_bytes: 1024,
+        content_type: "image/png",
+        url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800",
+        download_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800",
+        markdown_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800",
+        created_at: new Date().toISOString(),
       });
     }
 
