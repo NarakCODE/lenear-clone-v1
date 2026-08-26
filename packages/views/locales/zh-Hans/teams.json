@@ -1,0 +1,164 @@
+{
+  "page": {
+    "title": "团队",
+    "tagline": "将工作组织到具有专属标识与工作周期的跨职能团队中。",
+    "new_team": "新建团队",
+    "search_placeholder": "搜索团队...",
+    "empty": "暂无团队",
+    "empty_description": "创建第一个团队，管理限定范围的事务、周期和事务标识符。",
+    "create_first": "创建团队",
+    "no_matches": "未找到匹配的团队",
+    "no_team": "无团队",
+    "view_table": "表格",
+    "view_cards": "卡片",
+    "row_menu": "团队操作",
+    "edit": "编辑团队",
+    "delete": "删除团队",
+    "copy_key": "复制标识键",
+    "copy_link": "复制链接",
+    "toast_key_copied": "已复制团队标识键",
+    "toast_link_copied": "已复制团队链接",
+    "toast_team_deleted": "已删除团队",
+    "toast_team_updated": "团队已更新",
+    "selected_other": "已选择 {{count}} 项",
+    "clear_selection": "清除选择",
+    "list_error": {
+      "title": "无法加载团队",
+      "fallback": "获取团队列表时出错。",
+      "retry": "重试"
+    }
+  },
+  "table": {
+    "name": "团队",
+    "key": "标识",
+    "description": "描述",
+    "cycles": "周期",
+    "issues": "事务数",
+    "members": "成员",
+    "created": "创建时间",
+    "updated": "更新时间"
+  },
+  "toolbar": {
+    "filter_label": "筛选",
+    "filter_active_count": "筛选 ({{count}})",
+    "filter_active_count_other": "{{count}} 个筛选条件",
+    "clear_filters": "清除筛选",
+    "section_cycles": "周期",
+    "cycles_enabled": "已启用周期",
+    "cycles_disabled": "未启用周期",
+    "sort_by": "排序方式",
+    "direction_asc": "升序",
+    "direction_desc": "降序",
+    "section_columns": "显示列",
+    "display": "显示",
+    "view": "视图",
+    "result_count_title": "筛选后团队数 / 总数"
+  },
+  "cycles": {
+    "enabled": "{{weeks}}周周期",
+    "enabled_plural": "{{weeks}}周周期",
+    "disabled": "关闭"
+  },
+  "inspector": {
+    "details_section": "详情",
+    "delete_button": "删除",
+    "archive_button": "归档"
+  },
+  "delete_dialog": {
+    "title": "删除团队",
+    "description": "确定要删除此团队吗？此操作无法撤销。",
+    "confirm": "删除团队",
+    "deleting": "删除中…",
+    "cancel": "取消",
+    "batch_title": "删除 {{count}} 个团队",
+    "batch_description": "确定要删除选中的团队吗？此操作无法撤销。"
+  },
+  "edit_dialog": {
+    "title": "编辑团队",
+    "name_label": "团队名称",
+    "key_label": "标识键",
+    "description_label": "描述",
+    "color_label": "颜色",
+    "cycles_label": "启用周期",
+    "cycles_hint": "将团队事务分组到定时的工作周期与冲刺中。",
+    "cancel": "取消",
+    "save": "保存更改",
+    "saving": "保存中..."
+  },
+  "name_editor": {
+    "title": "重命名团队",
+    "placeholder": "团队名称",
+    "cancel": "取消",
+    "save": "保存"
+  },
+  "description_dialog": {
+    "title": "编辑描述",
+    "placeholder": "这个团队负责什么？",
+    "placeholder_empty": "添加描述",
+    "cancel": "取消",
+    "save": "保存"
+  },
+  "discard_changes_dialog": {
+    "title": "放弃未保存的更改？",
+    "description": "此标签页有未保存的更改。切换标签页将放弃这些更改。",
+    "keep_editing": "继续编辑",
+    "discard_button": "放弃"
+  },
+  "members_tab": {
+    "section_title": "成员",
+    "section_count_other": "团队共有 {{count}} 位成员",
+    "add_member_button": "添加成员",
+    "lead_chip": "负责人",
+    "member_chip": "成员",
+    "view_member_tooltip": "打开成员详情",
+    "make_lead_tooltip": "设为团队负责人",
+    "remove_member_tooltip": "移出团队"
+  },
+  "add_member_dialog": {
+    "title": "添加成员",
+    "description": "向此团队添加工作区成员。",
+    "label_member": "成员",
+    "label_role": "角色",
+    "label_optional": "(可选)",
+    "placeholder_role_inline": "添加角色…",
+    "select_placeholder": "选择成员",
+    "search_placeholder": "搜索成员...",
+    "cancel": "取消",
+    "add": "添加"
+  },
+  "profile_card": {
+    "unavailable": "团队不可用",
+    "detail_link": "详情 →",
+    "archived": "已归档",
+    "member_count_other": "{{count}} 位成员",
+    "members_section": "成员",
+    "more_members_other": "+{{count}} 位更多"
+  },
+  "overview_tab": {
+    "active_cycle": "当前活跃周期",
+    "no_active_cycle": "此团队当前没有进行中的活跃周期。",
+    "cycle_number": "周期 {{number}}",
+    "total_issues": "总事务数",
+    "team_members": "团队成员",
+    "cycles_completed": "已完成周期",
+    "cycle_duration": "周期时长",
+    "issues": "个事务",
+    "completed": "个已完成"
+  },
+  "cycles_tab": {
+    "title": "团队周期",
+    "no_cycles": "尚未配置工作周期。"
+  },
+  "settings_tab": {
+    "title": "团队设置",
+    "name_label": "团队名称",
+    "key_label": "标识键",
+    "description_label": "描述",
+    "color_label": "颜色",
+    "cycles_label": "启用工作周期",
+    "cycles_hint": "将团队事务分组到定时的工作周期与冲刺中。",
+    "duration_label": "周期时长（周）",
+    "save_button": "保存更改",
+    "saved_toast": "团队设置已保存"
+  }
+}

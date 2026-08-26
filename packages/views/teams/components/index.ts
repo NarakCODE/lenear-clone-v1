@@ -1,5 +1,9 @@
 export { TeamBadge } from "./team-badge";
 export { TeamPicker } from "./team-picker";
 export { CreateTeamDialog } from "./create-team-dialog";
+export { EditTeamDialog } from "./edit-team-dialog";
+export { TeamRowActions } from "./team-row-actions";
+export { TeamBatchToolbar } from "./team-batch-toolbar";
 export { TeamsPage } from "./teams-page";
 export { TeamDetailPage } from "./team-detail-page";
+export { TeamProfileCard } from "./team-profile-card";

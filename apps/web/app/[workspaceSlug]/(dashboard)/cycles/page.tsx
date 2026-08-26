@@ -1,1 +1,7 @@
-export { CyclesPage as default } from "@multica/views/cycles";
+"use client";
+
+import { CyclesPage } from "@multica/views/cycles";
+
+export default function Page() {
+  return <CyclesPage />;
+}

@@ -1,0 +1,169 @@
+{
+  "page": {
+    "title": "Teams",
+    "tagline": "Organize work into cross-functional teams with dedicated keys and cycles.",
+    "new_team": "New team",
+    "search_placeholder": "Search teams...",
+    "empty": "No teams yet",
+    "empty_description": "Create your first team to manage scoped issues, cycles, and issue identifiers.",
+    "create_first": "Create team",
+    "no_matches": "No teams match",
+    "no_team": "No team",
+    "view_table": "Table",
+    "view_cards": "Cards",
+    "row_menu": "Team actions",
+    "edit": "Edit team",
+    "delete": "Delete team",
+    "copy_key": "Copy identifier key",
+    "copy_link": "Copy link",
+    "toast_key_copied": "Team key copied",
+    "toast_link_copied": "Team link copied",
+    "toast_team_deleted": "Team deleted",
+    "toast_team_updated": "Team updated",
+    "selected_one": "{{count}} selected",
+    "selected_other": "{{count}} selected",
+    "clear_selection": "Clear selection",
+    "list_error": {
+      "title": "Couldn't load teams",
+      "fallback": "Something went wrong fetching the team list.",
+      "retry": "Try again"
+    }
+  },
+  "table": {
+    "name": "Team",
+    "key": "Key",
+    "description": "Description",
+    "cycles": "Cycles",
+    "issues": "Issues",
+    "members": "Members",
+    "created": "Created",
+    "updated": "Updated"
+  },
+  "toolbar": {
+    "filter_label": "Filter",
+    "filter_active_count": "Filter ({{count}})",
+    "filter_active_count_one": "{{count}} filter",
+    "filter_active_count_other": "{{count}} filters",
+    "clear_filters": "Clear filters",
+    "section_cycles": "Cycles",
+    "cycles_enabled": "Cycles enabled",
+    "cycles_disabled": "Cycles disabled",
+    "sort_by": "Sort by",
+    "direction_asc": "Ascending",
+    "direction_desc": "Descending",
+    "section_columns": "Columns",
+    "display": "Display",
+    "view": "View",
+    "result_count_title": "Filtered teams / total"
+  },
+  "cycles": {
+    "enabled": "{{weeks}}w cycle",
+    "enabled_plural": "{{weeks}}w cycles",
+    "disabled": "Off"
+  },
+  "inspector": {
+    "details_section": "Details",
+    "delete_button": "Delete",
+    "archive_button": "Archive"
+  },
+  "delete_dialog": {
+    "title": "Delete team",
+    "description": "Are you sure you want to delete this team? This action cannot be undone.",
+    "confirm": "Delete team",
+    "deleting": "Deleting…",
+    "cancel": "Cancel",
+    "batch_title": "Delete {{count}} teams",
+    "batch_description": "Are you sure you want to delete the selected teams? This action cannot be undone."
+  },
+  "edit_dialog": {
+    "title": "Edit team",
+    "name_label": "Team name",
+    "key_label": "Identifier key",
+    "description_label": "Description",
+    "color_label": "Color",
+    "cycles_label": "Enable cycles",
+    "cycles_hint": "Group team issues into timeboxed cycles and sprints.",
+    "cancel": "Cancel",
+    "save": "Save changes",
+    "saving": "Saving..."
+  },
+  "name_editor": {
+    "title": "Rename team",
+    "placeholder": "Team name",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "description_dialog": {
+    "title": "Edit description",
+    "placeholder": "What is this team responsible for?",
+    "placeholder_empty": "Add a description",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "discard_changes_dialog": {
+    "title": "Discard unsaved changes?",
+    "description": "You have unsaved changes on this tab. Switching tabs will discard them.",
+    "keep_editing": "Keep editing",
+    "discard_button": "Discard"
+  },
+  "members_tab": {
+    "section_title": "Members",
+    "section_count_one": "{{count}} member in this team",
+    "section_count_other": "{{count}} members in this team",
+    "add_member_button": "Add Member",
+    "lead_chip": "Lead",
+    "member_chip": "Member",
+    "view_member_tooltip": "Open member detail",
+    "make_lead_tooltip": "Make team lead",
+    "remove_member_tooltip": "Remove from team"
+  },
+  "add_member_dialog": {
+    "title": "Add Member",
+    "description": "Add a workspace member to this team.",
+    "label_member": "Member",
+    "label_role": "Role",
+    "label_optional": "(optional)",
+    "placeholder_role_inline": "Add role…",
+    "select_placeholder": "Select a member",
+    "search_placeholder": "Search members...",
+    "cancel": "Cancel",
+    "add": "Add"
+  },
+  "profile_card": {
+    "unavailable": "Team unavailable",
+    "detail_link": "Detail →",
+    "archived": "Archived",
+    "member_count_one": "{{count}} member",
+    "member_count_other": "{{count}} members",
+    "members_section": "Members",
+    "more_members_one": "+{{count}} more",
+    "more_members_other": "+{{count}} more"
+  },
+  "overview_tab": {
+    "active_cycle": "Active Cycle",
+    "no_active_cycle": "No active cycle running for this team.",
+    "cycle_number": "Cycle {{number}}",
+    "total_issues": "Total Issues",
+    "team_members": "Team Members",
+    "cycles_completed": "Cycles Completed",
+    "cycle_duration": "Cycle Duration",
+    "issues": "issues",
+    "completed": "completed"
+  },
+  "cycles_tab": {
+    "title": "Team Cycles",
+    "no_cycles": "No cycles configured yet."
+  },
+  "settings_tab": {
+    "title": "Team Settings",
+    "name_label": "Team Name",
+    "key_label": "Identifier Key",
+    "description_label": "Description",
+    "color_label": "Color",
+    "cycles_label": "Enable Cycles",
+    "cycles_hint": "Group team issues into timeboxed cycles and sprints.",
+    "duration_label": "Cycle Duration (Weeks)",
+    "save_button": "Save Changes",
+    "saved_toast": "Team settings saved"
+  }
+}

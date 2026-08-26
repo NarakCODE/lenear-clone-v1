@@ -1,0 +1,164 @@
+{
+  "page": {
+    "title": "チーム",
+    "tagline": "専用の識別子とサイクルを備えた部門横断チームに作業を整理します。",
+    "new_team": "チームを作成",
+    "search_placeholder": "チームを検索...",
+    "empty": "チームがまだありません",
+    "empty_description": "最初のチームを作成して、スコープされた課題、サイクル、課題識別子を管理します。",
+    "create_first": "チームを作成",
+    "no_matches": "一致するチームがありません",
+    "no_team": "チームなし",
+    "view_table": "テーブル",
+    "view_cards": "カード",
+    "row_menu": "チーム操作",
+    "edit": "チームを編集",
+    "delete": "チームを削除",
+    "copy_key": "識別キーをコピー",
+    "copy_link": "リンクをコピー",
+    "toast_key_copied": "チームキーをコピーしました",
+    "toast_link_copied": "チームリンクをコピーしました",
+    "toast_team_deleted": "チームを削除しました",
+    "toast_team_updated": "チームを更新しました",
+    "selected_other": "{{count}} 件選択中",
+    "clear_selection": "選択を解除",
+    "list_error": {
+      "title": "チームを読み込めませんでした",
+      "fallback": "チーム一覧の取得中にエラーが発生しました。",
+      "retry": "再試行"
+    }
+  },
+  "table": {
+    "name": "チーム",
+    "key": "キー",
+    "description": "説明",
+    "cycles": "サイクル",
+    "issues": "課題数",
+    "members": "メンバー",
+    "created": "作成日",
+    "updated": "更新日"
+  },
+  "toolbar": {
+    "filter_label": "フィルター",
+    "filter_active_count": "フィルター ({{count}})",
+    "filter_active_count_other": "{{count}} 件のフィルター",
+    "clear_filters": "フィルターをクリア",
+    "section_cycles": "サイクル",
+    "cycles_enabled": "サイクル有効",
+    "cycles_disabled": "サイクル無効",
+    "sort_by": "並び替え",
+    "direction_asc": "昇順",
+    "direction_desc": "降順",
+    "section_columns": "表示列",
+    "display": "表示",
+    "view": "ビュー",
+    "result_count_title": "絞り込み後のチーム数 / 合計"
+  },
+  "cycles": {
+    "enabled": "{{weeks}}週間サイクル",
+    "enabled_plural": "{{weeks}}週間サイクル",
+    "disabled": "オフ"
+  },
+  "inspector": {
+    "details_section": "詳細",
+    "delete_button": "削除",
+    "archive_button": "アーカイブ"
+  },
+  "delete_dialog": {
+    "title": "チームを削除",
+    "description": "このチームを削除してもよろしいですか？この操作は取り消せません。",
+    "confirm": "チームを削除",
+    "deleting": "削除中…",
+    "cancel": "キャンセル",
+    "batch_title": "{{count}} 件のチームを削除",
+    "batch_description": "選択したチームを削除してもよろしいですか？この操作は取り消せません。"
+  },
+  "edit_dialog": {
+    "title": "チームを編集",
+    "name_label": "チーム名",
+    "key_label": "識別キー",
+    "description_label": "説明",
+    "color_label": "カラー",
+    "cycles_label": "サイクルを有効化",
+    "cycles_hint": "チームの課題をタイムボックス化されたサイクルとスプリントにグループ化します。",
+    "cancel": "キャンセル",
+    "save": "変更を保存",
+    "saving": "保存中..."
+  },
+  "name_editor": {
+    "title": "チーム名を変更",
+    "placeholder": "チーム名",
+    "cancel": "キャンセル",
+    "save": "保存"
+  },
+  "description_dialog": {
+    "title": "説明を編集",
+    "placeholder": "このチームの役割は何ですか？",
+    "placeholder_empty": "説明を追加",
+    "cancel": "キャンセル",
+    "save": "保存"
+  },
+  "discard_changes_dialog": {
+    "title": "未保存の変更を破棄しますか？",
+    "description": "このタブには未保存の変更があります。タブを切り替えると変更が破棄されます。",
+    "keep_editing": "編集を続ける",
+    "discard_button": "破棄"
+  },
+  "members_tab": {
+    "section_title": "メンバー",
+    "section_count_other": "このチームのメンバー {{count}}名",
+    "add_member_button": "メンバーを追加",
+    "lead_chip": "リード",
+    "member_chip": "メンバー",
+    "view_member_tooltip": "メンバー詳細を開く",
+    "make_lead_tooltip": "チームリードにする",
+    "remove_member_tooltip": "チームから削除"
+  },
+  "add_member_dialog": {
+    "title": "メンバーを追加",
+    "description": "このチームにワークスペースメンバーを追加します。",
+    "label_member": "メンバー",
+    "label_role": "役割",
+    "label_optional": "（任意）",
+    "placeholder_role_inline": "役割を追加…",
+    "select_placeholder": "メンバーを選択",
+    "search_placeholder": "メンバーを検索...",
+    "cancel": "キャンセル",
+    "add": "追加"
+  },
+  "profile_card": {
+    "unavailable": "チームが利用できません",
+    "detail_link": "詳細 →",
+    "archived": "アーカイブ済み",
+    "member_count_other": "メンバー {{count}}名",
+    "members_section": "メンバー",
+    "more_members_other": "他 {{count}}名"
+  },
+  "overview_tab": {
+    "active_cycle": "アクティブなサイクル",
+    "no_active_cycle": "このチームで実行中のアクティブなサイクルはありません。",
+    "cycle_number": "サイクル {{number}}",
+    "total_issues": "総課題数",
+    "team_members": "チームメンバー",
+    "cycles_completed": "完了したサイクル",
+    "cycle_duration": "サイクル期間",
+    "issues": "件の課題",
+    "completed": "件完了"
+  },
+  "cycles_tab": {
+    "title": "チームサイクル",
+    "no_cycles": "設定されたサイクルはまだありません。"
+  },
+  "settings_tab": {
+    "title": "チーム設定",
+    "name_label": "チーム名",
+    "key_label": "識別キー",
+    "description_label": "説明",
+    "color_label": "カラー",
+    "cycles_label": "サイクルを有効化",
+    "cycles_hint": "チームの課題をタイムボックス化されたサイクルとスプリントにグループ化します。",
+    "duration_label": "サイクル期間（週間）",
+    "save_button": "変更を保存",
+    "saved_toast": "チーム設定を保存しました"
+  }
+}

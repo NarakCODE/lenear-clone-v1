@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@multica/ui/components/ui/dialog";
+import { useT } from "../../i18n";
 
 export function CreateTeamDialog({
   workspaceId,
@@ -23,6 +24,7 @@ export function CreateTeamDialog({
   onOpenChange: (open: boolean) => void;
   onSuccess?: (teamId: string) => void;
 }) {
+  const { t } = useT("teams");
   const [name, setName] = useState("");
   const [key, setKey] = useState("");
   const [description, setDescription] = useState("");
@@ -69,12 +71,12 @@ export function CreateTeamDialog({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Create Team</DialogTitle>
+            <DialogTitle>{t(($) => $.page.new_team)}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <label htmlFor="team-name" className="text-caption font-medium">
-                Team Name
+                {t(($) => $.edit_dialog.name_label)}
               </label>
               <Input
                 id="team-name"
@@ -86,7 +88,7 @@ export function CreateTeamDialog({
             </div>
             <div className="grid gap-2">
               <label htmlFor="team-key" className="text-caption font-medium">
-                Identifier Key (for issues e.g. ENG-1)
+                {t(($) => $.edit_dialog.key_label)}
               </label>
               <Input
                 id="team-key"
@@ -99,7 +101,7 @@ export function CreateTeamDialog({
             </div>
             <div className="grid gap-2">
               <label htmlFor="team-desc" className="text-caption font-medium">
-                Description (optional)
+                {t(($) => $.edit_dialog.description_label)}
               </label>
               <Input
                 id="team-desc"
@@ -109,7 +111,9 @@ export function CreateTeamDialog({
               />
             </div>
             <div className="grid gap-2">
-              <label className="text-caption font-medium">Color</label>
+              <label className="text-caption font-medium">
+                {t(($) => $.edit_dialog.color_label)}
+              </label>
               <div className="flex items-center gap-2">
                 {[
                   "#6366f1",
@@ -142,13 +146,13 @@ export function CreateTeamDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t(($) => $.edit_dialog.cancel)}
             </Button>
             <Button
               type="submit"
               disabled={!name.trim() || !key.trim() || createTeam.isPending}
             >
-              {createTeam.isPending ? "Creating..." : "Create Team"}
+              {createTeam.isPending ? t(($) => $.edit_dialog.saving) : t(($) => $.page.create_first)}
             </Button>
           </DialogFooter>
         </form>

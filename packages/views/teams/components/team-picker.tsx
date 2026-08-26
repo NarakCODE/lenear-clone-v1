@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@multica/ui/components/ui/dropdown-menu";
+import { useT } from "../../i18n";
 
 export function TeamPicker({
   workspaceId,
@@ -24,6 +25,7 @@ export function TeamPicker({
   triggerClassName?: string;
   align?: "start" | "end" | "center";
 }) {
+  const { t } = useT("teams");
   const { data: teams = [] } = useQuery(teamListOptions(workspaceId));
   const selectedTeam = teams.find((t) => t.id === selectedTeamId);
 
@@ -51,7 +53,7 @@ export function TeamPicker({
             ) : (
               <>
                 <Users className="size-3.5 text-muted-foreground" />
-                <span className="text-muted-foreground">No team</span>
+                <span className="text-muted-foreground">{t(($) => $.page.no_team)}</span>
               </>
             )}
             <ChevronsUpDown className="size-3 text-muted-foreground ml-auto" />
@@ -60,7 +62,7 @@ export function TeamPicker({
       />
       <DropdownMenuContent align={align} className="w-52">
         <DropdownMenuItem onClick={() => onSelectTeam(null)}>
-          <span className="text-muted-foreground">No team</span>
+          <span className="text-muted-foreground">{t(($) => $.page.no_team)}</span>
           {!selectedTeamId && <Check className="ml-auto size-3.5" />}
         </DropdownMenuItem>
         {teams.map((team) => (

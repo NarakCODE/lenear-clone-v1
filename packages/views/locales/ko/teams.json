@@ -1,0 +1,164 @@
+{
+  "page": {
+    "title": "팀",
+    "tagline": "전용 키와 사이클을 갖춘 다기능 팀으로 업무를 구성하세요.",
+    "new_team": "새 팀",
+    "search_placeholder": "팀 검색...",
+    "empty": "팀이 없습니다",
+    "empty_description": "첫 번째 팀을 생성하여 범위가 지정된 이슈, 사이클 및 이슈 식별자를 관리하세요.",
+    "create_first": "팀 만들기",
+    "no_matches": "일치하는 팀이 없습니다",
+    "no_team": "팀 없음",
+    "view_table": "테이블",
+    "view_cards": "카드",
+    "row_menu": "팀 작업",
+    "edit": "팀 수정",
+    "delete": "팀 삭제",
+    "copy_key": "식별 키 복사",
+    "copy_link": "링크 복사",
+    "toast_key_copied": "팀 키가 복사되었습니다",
+    "toast_link_copied": "팀 링크가 복사되었습니다",
+    "toast_team_deleted": "팀이 삭제되었습니다",
+    "toast_team_updated": "팀이 업데이트되었습니다",
+    "selected_other": "{{count}}개 선택됨",
+    "clear_selection": "선택 해제",
+    "list_error": {
+      "title": "팀을 불러올 수 없습니다",
+      "fallback": "팀 목록을 가져오는 중 오류가 발생했습니다.",
+      "retry": "다시 시도"
+    }
+  },
+  "table": {
+    "name": "팀",
+    "key": "키",
+    "description": "설명",
+    "cycles": "사이클",
+    "issues": "이슈 수",
+    "members": "멤버",
+    "created": "생성일",
+    "updated": "수정일"
+  },
+  "toolbar": {
+    "filter_label": "필터",
+    "filter_active_count": "필터 ({{count}})",
+    "filter_active_count_other": "{{count}}개 필터",
+    "clear_filters": "필터 초기화",
+    "section_cycles": "사이클",
+    "cycles_enabled": "사이클 사용",
+    "cycles_disabled": "사이클 사용 안 함",
+    "sort_by": "정렬 기준",
+    "direction_asc": "오름차순",
+    "direction_desc": "내림차순",
+    "section_columns": "표시할 열",
+    "display": "보기",
+    "view": "보기",
+    "result_count_title": "필터링된 팀 / 전체"
+  },
+  "cycles": {
+    "enabled": "{{weeks}}주 사이클",
+    "enabled_plural": "{{weeks}}주 사이클",
+    "disabled": "꺼짐"
+  },
+  "inspector": {
+    "details_section": "세부 정보",
+    "delete_button": "삭제",
+    "archive_button": "보관"
+  },
+  "delete_dialog": {
+    "title": "팀 삭제",
+    "description": "이 팀을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.",
+    "confirm": "팀 삭제",
+    "deleting": "삭제 중…",
+    "cancel": "취소",
+    "batch_title": "팀 {{count}}개 삭제",
+    "batch_description": "선택한 팀을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다."
+  },
+  "edit_dialog": {
+    "title": "팀 수정",
+    "name_label": "팀 이름",
+    "key_label": "식별 키",
+    "description_label": "설명",
+    "color_label": "색상",
+    "cycles_label": "사이클 활성화",
+    "cycles_hint": "팀 이슈를 시간 제한이 있는 사이클 및 스프린트로 그룹화합니다.",
+    "cancel": "취소",
+    "save": "변경 사항 저장",
+    "saving": "저장 중..."
+  },
+  "name_editor": {
+    "title": "팀 이름 바꾸기",
+    "placeholder": "팀 이름",
+    "cancel": "취소",
+    "save": "저장"
+  },
+  "description_dialog": {
+    "title": "설명 수정",
+    "placeholder": "이 팀은 어떤 업무를 담당하나요?",
+    "placeholder_empty": "설명 추가",
+    "cancel": "취소",
+    "save": "저장"
+  },
+  "discard_changes_dialog": {
+    "title": "저장되지 않은 변경 사항을 취소하시겠습니까?",
+    "description": "이 탭에 저장되지 않은 변경 사항이 있습니다. 탭을 전환하면 변경 사항이 손실됩니다.",
+    "keep_editing": "계속 수정",
+    "discard_button": "변경 취소"
+  },
+  "members_tab": {
+    "section_title": "멤버",
+    "section_count_other": "이 팀의 멤버 {{count}}명",
+    "add_member_button": "멤버 추가",
+    "lead_chip": "리드",
+    "member_chip": "멤버",
+    "view_member_tooltip": "멤버 세부 정보 보기",
+    "make_lead_tooltip": "팀 리드로 지정",
+    "remove_member_tooltip": "팀에서 제거"
+  },
+  "add_member_dialog": {
+    "title": "멤버 추가",
+    "description": "이 팀에 워크스페이스 멤버를 추가합니다.",
+    "label_member": "멤버",
+    "label_role": "역할",
+    "label_optional": "(선택)",
+    "placeholder_role_inline": "역할 추가…",
+    "select_placeholder": "멤버 선택",
+    "search_placeholder": "멤버 검색...",
+    "cancel": "취소",
+    "add": "추가"
+  },
+  "profile_card": {
+    "unavailable": "팀을 사용할 수 없습니다",
+    "detail_link": "세부 정보 →",
+    "archived": "보관됨",
+    "member_count_other": "{{count}}명의 멤버",
+    "members_section": "멤버",
+    "more_members_other": "+{{count}}명 더보기"
+  },
+  "overview_tab": {
+    "active_cycle": "활성 사이클",
+    "no_active_cycle": "이 팀에서 실행 중인 활성 사이클이 없습니다.",
+    "cycle_number": "사이클 {{number}}",
+    "total_issues": "전체 이슈",
+    "team_members": "팀 멤버",
+    "cycles_completed": "완료된 사이클",
+    "cycle_duration": "사이클 기간",
+    "issues": "개 이슈",
+    "completed": "개 완료"
+  },
+  "cycles_tab": {
+    "title": "팀 사이클",
+    "no_cycles": "아직 구성된 사이클이 없습니다."
+  },
+  "settings_tab": {
+    "title": "팀 설정",
+    "name_label": "팀 이름",
+    "key_label": "식별 키",
+    "description_label": "설명",
+    "color_label": "색상",
+    "cycles_label": "사이클 활성화",
+    "cycles_hint": "팀 이슈를 시간 제한이 있는 사이클 및 스프린트로 그룹화합니다.",
+    "duration_label": "사이클 기간(주)",
+    "save_button": "변경 사항 저장",
+    "saved_toast": "팀 설정이 저장되었습니다"
+  }
+}
