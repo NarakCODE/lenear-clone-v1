@@ -56,6 +56,8 @@ import { ShortcutKeycaps } from "../common/shortcut-keycaps";
 import { StatusIcon, StatusPicker, PriorityIcon, PriorityPicker, StagePicker, AssigneePicker, StartDatePicker, DueDatePicker, LabelPicker } from "../issues/components";
 import { maxSiblingStage } from "../issues/components/pickers/stage-picker";
 import { ProjectPicker } from "../projects/components/project-picker";
+import { TeamPicker } from "../teams/components/team-picker";
+import { CyclePicker } from "../issues/components/pickers/cycle-picker";
 import { useIssueTriggerPreview } from "../issues/hooks/use-issue-trigger-preview";
 import { useActorName } from "@multica/core/workspace/hooks";
 import { useCurrentWorkspace, useWorkspacePaths } from "@multica/core/paths";
@@ -261,6 +263,18 @@ export function ManualCreatePanel({
       return (data.project_id as string | null) ?? undefined;
     }
     return draft.shared.projectId;
+  });
+  const [teamId, setTeamId] = useState<string | undefined>(() => {
+    if (data && "team_id" in data) {
+      return (data.team_id as string | null) ?? undefined;
+    }
+    return undefined;
+  });
+  const [cycleId, setCycleId] = useState<string | undefined>(() => {
+    if (data && "cycle_id" in data) {
+      return (data.cycle_id as string | null) ?? undefined;
+    }
+    return undefined;
   });
   const [parentIssueId, setParentIssueId] = useState<string | undefined>(
     (data?.parent_issue_id as string) || undefined,
@@ -478,6 +492,8 @@ export function ManualCreatePanel({
         // Stage is only meaningful for a sub-issue (relative to its siblings).
         stage: parentIssueId && stage != null ? stage : undefined,
         project_id: projectId,
+        team_id: teamId,
+        cycle_id: cycleId,
       });
 
       // Custom-property values can only be addressed once the issue has an
@@ -954,6 +970,24 @@ export function ManualCreatePanel({
                   onOpenChange={(open) => setFieldPickerOpen(open ? "project" : null)}
                 />
               )}
+
+              {/* Team */}
+              <TeamPicker
+                workspaceId={wsId}
+                selectedTeamId={teamId ?? null}
+                onSelectTeam={(id) => {
+                  setTeamId(id ?? undefined);
+                  if (!id) setCycleId(undefined);
+                }}
+              />
+
+              {/* Cycle */}
+              <CyclePicker
+                workspaceId={wsId}
+                teamId={teamId ?? null}
+                cycleId={cycleId ?? null}
+                onUpdate={(u) => setCycleId(u.cycle_id ?? undefined)}
+              />
 
               {/* Stage — only relevant when creating a sub-issue under a parent */}
               {parentIssueId && (

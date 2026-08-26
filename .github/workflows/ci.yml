@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   # Decides whether the heavy frontend validation jobs have anything to do.
-  # The frontend jobs validate the web/desktop apps, the shared packages,
+  # The frontend jobs validate the web app, the shared packages,
   # the install graph, and the selfhost / reserved-slugs scripts it runs;
   # a pure backend-only or docs-only PR touches none of those and gains
   # nothing from a full web build. This job emits a single `frontend`
@@ -39,7 +39,6 @@ jobs:
           filters: |
             frontend:
               - 'apps/web/**'
-              - 'apps/desktop/**'
               - 'packages/**'
               - 'package.json'
               - '.npmrc'
@@ -86,7 +85,7 @@ jobs:
 
   # The frontend validation is split across four runners on purpose. A prior
   # split isolated build/typecheck/lint from the test suites; on a full test
-  # cache miss, however, web/core/desktop/views still competed for the four
+  # cache miss, however, web/core/views still competed for the four
   # vCPUs on the test runner and stretched the job to ~8 minutes. Giving views
   # its own runner only reduced that to 7m23s because the suite itself remained
   # the long pole, so two Vitest shards now split it across two runners while
@@ -208,7 +207,7 @@ jobs:
           restore-keys: |
             turbo-test-${{ runner.os }}-${{ runner.arch }}-${{ steps.runtime.outputs.node }}-
 
-      - name: Test web, core, and desktop
+      - name: Test web and core
         if: ${{ needs.changes.outputs.frontend == 'true' }}
         # Same filter rationale as frontend-build. Type errors are not this
         # job's responsibility -- frontend-build owns the `typecheck` task.

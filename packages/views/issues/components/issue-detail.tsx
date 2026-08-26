@@ -67,6 +67,8 @@ import { LabelChip } from "../../labels/label-chip";
 import { IssueAgentActivityIndicator } from "./issue-agent-activity-indicator";
 import { SubIssuesAgentWorkingChip } from "./sub-issues-agent-working-chip";
 import { ProjectPicker } from "../../projects/components/project-picker";
+import { TeamPicker } from "../../teams/components/team-picker";
+import { CyclePicker } from "./pickers/cycle-picker";
 import { LocalDirectoryHint } from "../../projects/components/local-directory-hint";
 import { CommentCard } from "./comment-card";
 import { CommentInput } from "./comment-input";
@@ -2102,6 +2104,21 @@ export function IssueDetail({ issueId, onDelete, onDone, defaultSidebarOpen = tr
           <PropRow label={t(($) => $.detail.prop_project)}>
             <ProjectPicker
               projectId={issue.project_id}
+              onUpdate={handleUpdateField}
+            />
+          </PropRow>
+          <PropRow label="Team">
+            <TeamPicker
+              workspaceId={wsId}
+              selectedTeamId={issue.team_id ?? null}
+              onSelectTeam={(teamId) => handleUpdateField({ team_id: teamId ?? undefined })}
+            />
+          </PropRow>
+          <PropRow label="Cycle">
+            <CyclePicker
+              workspaceId={wsId}
+              teamId={issue.team_id ?? null}
+              cycleId={issue.cycle_id ?? null}
               onUpdate={handleUpdateField}
             />
           </PropRow>

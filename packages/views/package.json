@@ -33,6 +33,7 @@
     "./teams/components": "./teams/components/index.ts",
     "./cycles": "./cycles/index.ts",
     "./cycles/components": "./cycles/components/index.ts",
+    "./views": "./views/index.ts",
     "./squads": "./squads/index.ts",
     "./squads/components": "./squads/components/index.ts",
     "./workspace/workspace-avatar": "./workspace/workspace-avatar.tsx",

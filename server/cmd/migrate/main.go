@@ -194,6 +194,20 @@ var concurrentIndexCleanups = map[string]string{
 	"333_issue_status_pkey_index":                               "issue_status_pkey_uidx",
 	"335_issue_status_workspace_key_index":                      "idx_issue_status_workspace_key",
 	"336_issue_status_workspace_name_index":                     "idx_issue_status_workspace_name_active",
+	"343_team_id_pkey_index":                                    "idx_team_id_pkey",
+	"345_team_workspace_key_index":                              "idx_team_workspace_key",
+	"346_team_workspace_index":                                  "idx_team_workspace",
+	"348_team_member_id_pkey_index":                             "idx_team_member_id_pkey",
+	"350_team_member_team_user_index":                           "idx_team_member_team_user",
+	"351_team_member_user_index":                                "idx_team_member_user",
+	"353_cycle_id_pkey_index":                                   "idx_cycle_id_pkey",
+	"355_cycle_team_number_index":                               "idx_cycle_team_number",
+	"356_cycle_team_status_index":                               "idx_cycle_team_status",
+	"358_project_team_pkey_index":                               "idx_project_team_pkey",
+	"360_project_team_team_index":                               "idx_project_team_team",
+	"362_issue_team_id_index":                                   "idx_issue_team_id",
+	"363_issue_cycle_id_index":                                  "idx_issue_cycle_id",
+	"365_issue_status_team_index":                               "idx_issue_status_team",
 }
 
 // concurrentDownIndexCleanups covers every migration whose down direction

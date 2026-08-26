@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  type ReactNode,
+} from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Card,
@@ -67,7 +73,11 @@ interface LoginPageProps {
 // Helpers
 // ---------------------------------------------------------------------------
 
-export function redirectToCliCallback(url: string, token: string, state: string) {
+export function redirectToCliCallback(
+  url: string,
+  token: string,
+  state: string,
+) {
   const separator = url.includes("?") ? "&" : "?";
   window.location.href = `${url}${separator}token=${encodeURIComponent(token)}&state=${encodeURIComponent(state)}`;
 }
@@ -108,6 +118,8 @@ export function LoginPage({
 }: LoginPageProps) {
   const { t } = useT("auth");
   const qc = useQueryClient();
+  const sendCode = useAuthStore((s) => s.sendCode);
+  const verifyCode = useAuthStore((s) => s.verifyCode);
   const [step, setStep] = useState<"email" | "code" | "cli_confirm">("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -172,7 +184,7 @@ export function LoginPage({
       setLoading(true);
       setError("");
       try {
-        await useAuthStore.getState().sendCode(email);
+        await sendCode(email);
         setStep("code");
         setCode("");
         setCooldown(60);
@@ -186,7 +198,7 @@ export function LoginPage({
         setLoading(false);
       }
     },
-    [email, t],
+    [email, sendCode, t],
   );
 
   const handleVerify = useCallback(
@@ -209,29 +221,27 @@ export function LoginPage({
         // caller's onSuccess can read it synchronously to compute a destination
         // URL (first workspace's slug, or /workspaces/new for zero-workspace
         // users).
-        await useAuthStore.getState().verifyCode(email, value);
+        await verifyCode(email, value);
         const wsList = await api.listWorkspaces();
         qc.setQueryData(workspaceKeys.list(), wsList);
         onTokenObtained?.();
         onSuccess();
       } catch (err) {
         setError(
-          err instanceof Error
-            ? err.message
-            : t(($) => $.errors.code_invalid),
+          err instanceof Error ? err.message : t(($) => $.errors.code_invalid),
         );
         setCode("");
         setLoading(false);
       }
     },
-    [email, onSuccess, cliCallback, onTokenObtained, qc, t],
+    [email, onSuccess, cliCallback, onTokenObtained, qc, t, verifyCode],
   );
 
   const handleResend = async () => {
     if (cooldown > 0) return;
     setError("");
     try {
-      await useAuthStore.getState().sendCode(email);
+      await sendCode(email);
       setCooldown(60);
     } catch (err) {
       setError(
@@ -367,9 +377,7 @@ export function LoginPage({
                 <InputOTPSlot index={5} />
               </InputOTPGroup>
             </InputOTP>
-            {error && (
-              <p className="text-body text-destructive">{error}</p>
-            )}
+            {error && <p className="text-body text-destructive">{error}</p>}
             <div className="flex items-center gap-2 text-body text-muted-foreground">
               <button
                 type="button"
@@ -414,9 +422,7 @@ export function LoginPage({
           <CardTitle className="text-display-sm">
             {t(($) => $.signin.title)}
           </CardTitle>
-          <CardDescription>
-            {t(($) => $.signin.description)}
-          </CardDescription>
+          <CardDescription>{t(($) => $.signin.description)}</CardDescription>
         </CardHeader>
         <CardContent>
           <form id="login-form" onSubmit={handleSendCode} className="space-y-4">
@@ -432,9 +438,7 @@ export function LoginPage({
                 required
               />
             </div>
-            {error && (
-              <p className="text-body text-destructive">{error}</p>
-            )}
+            {error && <p className="text-body text-destructive">{error}</p>}
           </form>
         </CardContent>
         <CardFooter className="flex flex-col gap-3">
@@ -445,9 +449,7 @@ export function LoginPage({
             size="lg"
             disabled={!email || loading}
           >
-            {loading
-              ? t(($) => $.signin.sending)
-              : t(($) => $.signin.continue)}
+            {loading ? t(($) => $.signin.sending) : t(($) => $.signin.continue)}
           </Button>
           {(google || onGoogleLogin) && (
             <Button
