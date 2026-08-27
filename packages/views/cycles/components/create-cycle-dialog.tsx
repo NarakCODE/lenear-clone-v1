@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@multica/ui/components/ui/dialog";
+import { useT } from "../../i18n";
 
 export function CreateCycleDialog({
   workspaceId,
@@ -25,6 +26,7 @@ export function CreateCycleDialog({
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
 }) {
+  const { t } = useT("common");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState(
@@ -65,7 +67,7 @@ export function CreateCycleDialog({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>New Cycle</DialogTitle>
+            <DialogTitle>{t(($) => $.cycles.new_dialog)}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
@@ -126,7 +128,9 @@ export function CreateCycleDialog({
               Cancel
             </Button>
             <Button type="submit" disabled={createCycle.isPending}>
-              {createCycle.isPending ? "Creating..." : "Create Cycle"}
+              {createCycle.isPending
+                ? t(($) => $.cycles.creating)
+                : t(($) => $.cycles.create)}
             </Button>
           </DialogFooter>
         </form>

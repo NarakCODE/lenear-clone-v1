@@ -123,5 +123,14 @@
     "private": "非公開",
     "created": "作成日 {{date}}",
     "open": "ビューを開く →"
+  },
+  "cycles": {
+    "title": "サイクル",
+    "new_button": "新しいサイクル",
+    "empty_no_team": "先にチームを作成してください",
+    "empty": "サイクルはまだありません",
+    "create": "サイクルを作成",
+    "new_dialog": "新しいサイクル",
+    "creating": "作成中…"
   }
 }

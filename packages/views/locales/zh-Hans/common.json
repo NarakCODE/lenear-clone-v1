@@ -123,5 +123,14 @@
     "private": "私有",
     "created": "创建于 {{date}}",
     "open": "打开视图 →"
+  },
+  "cycles": {
+    "title": "周期",
+    "new_button": "新建周期",
+    "empty_no_team": "请先创建团队",
+    "empty": "还没有周期",
+    "create": "创建周期",
+    "new_dialog": "新建周期",
+    "creating": "正在创建…"
   }
 }

@@ -123,5 +123,14 @@
     "private": "비공개",
     "created": "생성일 {{date}}",
     "open": "뷰 열기 →"
+  },
+  "cycles": {
+    "title": "사이클",
+    "new_button": "새 사이클",
+    "empty_no_team": "먼저 팀을 만들어 주세요",
+    "empty": "아직 사이클이 없어요",
+    "create": "사이클 만들기",
+    "new_dialog": "새 사이클",
+    "creating": "생성 중..."
   }
 }

@@ -7,6 +7,7 @@ import { teamListOptions } from "@multica/core/teams";
 import { cycleListOptions } from "@multica/core/cycles";
 import { useWorkspaceId } from "@multica/core/hooks";
 import { Button } from "@multica/ui/components/ui/button";
+import { useT } from "../../i18n";
 import { CreateCycleDialog } from "./create-cycle-dialog";
 import { CycleProgressCard } from "./cycle-progress-card";
 
@@ -18,6 +19,7 @@ export function CyclesPage({
 } = {}) {
   const contextWsId = useWorkspaceId();
   const workspaceId = propWsId || contextWsId;
+  const { t } = useT("common");
   const { data: teams = [] } = useQuery(teamListOptions(workspaceId));
   const [selectedTeamId, setSelectedTeamId] = useState<string>(
     () => teams[0]?.id || "",
@@ -33,7 +35,7 @@ export function CyclesPage({
     <div className="flex-1 flex flex-col min-h-0 bg-background">
       <div className="border-b border-border/40 px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-title font-semibold tracking-tight">Cycles</h1>
+          <h1 className="text-title font-semibold tracking-tight">{t(($) => $.cycles.title)}</h1>
           <p className="text-body text-muted-foreground">
             Timebox work into 1–4 week sprints with progress and burndown.
           </p>
@@ -61,7 +63,7 @@ export function CyclesPage({
               className="gap-1.5"
             >
               <Plus className="size-4" />
-              <span>New Cycle</span>
+              <span>{t(($) => $.cycles.new_button)}</span>
             </Button>
           )}
         </div>
@@ -80,7 +82,7 @@ export function CyclesPage({
         ) : !activeTeamId ? (
           <div className="text-center py-16 border border-dashed border-border/60 rounded-xl p-8 max-w-md mx-auto">
             <Repeat className="size-10 text-muted-foreground mx-auto mb-3" />
-            <h3 className="text-title-sm font-medium mb-1">Create a team first</h3>
+            <h3 className="text-title-sm font-medium mb-1">{t(($) => $.cycles.empty_no_team)}</h3>
             <p className="text-caption text-muted-foreground">
               Cycles are scoped to teams. Set up a team before scheduling cycles.
             </p>
@@ -88,7 +90,7 @@ export function CyclesPage({
         ) : cycles.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-border/60 rounded-xl p-8 max-w-md mx-auto">
             <Repeat className="size-10 text-muted-foreground mx-auto mb-3" />
-            <h3 className="text-title-sm font-medium mb-1">No cycles yet</h3>
+            <h3 className="text-title-sm font-medium mb-1">{t(($) => $.cycles.empty)}</h3>
             <p className="text-caption text-muted-foreground mb-4">
               Start your first cycle to group issues into focused sprints.
             </p>
@@ -98,7 +100,7 @@ export function CyclesPage({
               className="gap-1.5"
             >
               <Plus className="size-4" />
-              <span>Create Cycle</span>
+              <span>{t(($) => $.cycles.create)}</span>
             </Button>
           </div>
         ) : (

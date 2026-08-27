@@ -123,5 +123,14 @@
     "private": "Private",
     "created": "Created {{date}}",
     "open": "Open View →"
+  },
+  "cycles": {
+    "title": "Cycles",
+    "new_button": "New Cycle",
+    "empty_no_team": "Create a team first",
+    "empty": "No cycles yet",
+    "create": "Create Cycle",
+    "new_dialog": "New Cycle",
+    "creating": "Creating..."
   }
 }
