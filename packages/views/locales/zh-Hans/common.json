@@ -126,11 +126,22 @@
   },
   "cycles": {
     "title": "周期",
+    "tagline": "将工作划分为 1–4 周的冲刺，并跟踪进度和燃尽图。",
     "new_button": "新建周期",
     "empty_no_team": "请先创建团队",
+    "empty_no_team_description": "周期按团队划分。请先设置团队，再安排周期。",
     "empty": "还没有周期",
+    "empty_description": "创建第一个周期，将问题归入专注的冲刺。",
     "create": "创建周期",
     "new_dialog": "新建周期",
-    "creating": "正在创建…"
+    "creating": "正在创建…",
+    "progress": "已完成 {{completed}} / {{total}} 个问题",
+    "name_label": "周期名称（可选）",
+    "name_placeholder": "例如：冲刺 24、性能周期",
+    "description_label": "描述（可选）",
+    "description_placeholder": "此周期的主要重点或目标",
+    "start_date": "开始日期",
+    "end_date": "结束日期",
+    "cancel": "取消"
   }
 }

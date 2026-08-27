@@ -126,11 +126,22 @@
   },
   "cycles": {
     "title": "Cycles",
+    "tagline": "Timebox work into 1–4 week sprints with progress and burndown.",
     "new_button": "New Cycle",
     "empty_no_team": "Create a team first",
+    "empty_no_team_description": "Cycles are scoped to teams. Set up a team before scheduling cycles.",
     "empty": "No cycles yet",
+    "empty_description": "Start your first cycle to group issues into focused sprints.",
     "create": "Create Cycle",
     "new_dialog": "New Cycle",
-    "creating": "Creating..."
+    "creating": "Creating...",
+    "progress": "{{completed}} of {{total}} issues completed",
+    "name_label": "Cycle Name (optional)",
+    "name_placeholder": "e.g. Sprint 24, Performance Cycle",
+    "description_label": "Description (optional)",
+    "description_placeholder": "Main focus or goals of this cycle",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "cancel": "Cancel"
   }
 }

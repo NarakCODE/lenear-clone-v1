@@ -72,22 +72,22 @@ export function CreateCycleDialog({
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <label htmlFor="cycle-name" className="text-caption font-medium">
-                Cycle Name (optional)
+                {t(($) => $.cycles.name_label)}
               </label>
               <Input
                 id="cycle-name"
-                placeholder="e.g. Sprint 24, Performance Cycle"
+                placeholder={t(($) => $.cycles.name_placeholder)}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
               <label htmlFor="cycle-desc" className="text-caption font-medium">
-                Description (optional)
+                {t(($) => $.cycles.description_label)}
               </label>
               <Input
                 id="cycle-desc"
-                placeholder="Main focus or goals of this cycle"
+                placeholder={t(($) => $.cycles.description_placeholder)}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -95,7 +95,7 @@ export function CreateCycleDialog({
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <label htmlFor="start-date" className="text-caption font-medium">
-                  Start Date
+                  {t(($) => $.cycles.start_date)}
                 </label>
                 <Input
                   id="start-date"
@@ -107,7 +107,7 @@ export function CreateCycleDialog({
               </div>
               <div className="grid gap-2">
                 <label htmlFor="end-date" className="text-caption font-medium">
-                  End Date
+                  {t(($) => $.cycles.end_date)}
                 </label>
                 <Input
                   id="end-date"
@@ -125,7 +125,7 @@ export function CreateCycleDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t(($) => $.cycles.cancel)}
             </Button>
             <Button type="submit" disabled={createCycle.isPending}>
               {createCycle.isPending

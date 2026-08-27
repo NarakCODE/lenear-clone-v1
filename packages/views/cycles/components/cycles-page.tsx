@@ -37,7 +37,7 @@ export function CyclesPage({
         <div>
           <h1 className="text-title font-semibold tracking-tight">{t(($) => $.cycles.title)}</h1>
           <p className="text-body text-muted-foreground">
-            Timebox work into 1–4 week sprints with progress and burndown.
+            {t(($) => $.cycles.tagline)}
           </p>
         </div>
 
@@ -84,7 +84,7 @@ export function CyclesPage({
             <Repeat className="size-10 text-muted-foreground mx-auto mb-3" />
             <h3 className="text-title-sm font-medium mb-1">{t(($) => $.cycles.empty_no_team)}</h3>
             <p className="text-caption text-muted-foreground">
-              Cycles are scoped to teams. Set up a team before scheduling cycles.
+              {t(($) => $.cycles.empty_no_team_description)}
             </p>
           </div>
         ) : cycles.length === 0 ? (
@@ -92,7 +92,7 @@ export function CyclesPage({
             <Repeat className="size-10 text-muted-foreground mx-auto mb-3" />
             <h3 className="text-title-sm font-medium mb-1">{t(($) => $.cycles.empty)}</h3>
             <p className="text-caption text-muted-foreground mb-4">
-              Start your first cycle to group issues into focused sprints.
+              {t(($) => $.cycles.empty_description)}
             </p>
             <Button
               onClick={() => setCreateOpen(true)}

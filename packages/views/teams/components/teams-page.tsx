@@ -82,6 +82,8 @@ import { TeamRowActions } from "./team-row-actions";
 import { TeamBatchToolbar } from "./team-batch-toolbar";
 
 const COLUMN_WIDTHS: Record<TeamColumnKey, number> = {
+  lead: 160,
+  members: 120,
   key: 96,
   cycles: 128,
   issues: 88,

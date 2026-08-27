@@ -126,11 +126,22 @@
   },
   "cycles": {
     "title": "사이클",
+    "tagline": "진행률과 번다운을 확인하며 작업을 1~4주 스프린트로 관리해요.",
     "new_button": "새 사이클",
     "empty_no_team": "먼저 팀을 만들어 주세요",
+    "empty_no_team_description": "사이클은 팀 단위로 관리돼요. 사이클을 예약하기 전에 팀을 설정하세요.",
     "empty": "아직 사이클이 없어요",
+    "empty_description": "첫 사이클을 시작해 이슈를 집중적인 스프린트로 묶어 보세요.",
     "create": "사이클 만들기",
     "new_dialog": "새 사이클",
-    "creating": "생성 중..."
+    "creating": "생성 중...",
+    "progress": "{{completed}}개 중 {{total}}개 이슈 완료",
+    "name_label": "사이클 이름(선택 사항)",
+    "name_placeholder": "예: 스프린트 24, 성능 사이클",
+    "description_label": "설명(선택 사항)",
+    "description_placeholder": "이 사이클의 주요 초점 또는 목표",
+    "start_date": "시작일",
+    "end_date": "종료일",
+    "cancel": "취소"
   }
 }

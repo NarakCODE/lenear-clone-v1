@@ -126,11 +126,22 @@
   },
   "cycles": {
     "title": "サイクル",
+    "tagline": "進捗とバーンダウンを確認しながら、作業を 1〜4 週間のスプリントに区切ります。",
     "new_button": "新しいサイクル",
     "empty_no_team": "先にチームを作成してください",
+    "empty_no_team_description": "サイクルはチーム単位です。サイクルを予定する前にチームを設定してください。",
     "empty": "サイクルはまだありません",
+    "empty_description": "最初のサイクルを作成して、課題を集中したスプリントにまとめましょう。",
     "create": "サイクルを作成",
     "new_dialog": "新しいサイクル",
-    "creating": "作成中…"
+    "creating": "作成中…",
+    "progress": "{{completed}} / {{total}} 件の課題が完了",
+    "name_label": "サイクル名（任意）",
+    "name_placeholder": "例：スプリント 24、パフォーマンスサイクル",
+    "description_label": "説明（任意）",
+    "description_placeholder": "このサイクルの主な目的や目標",
+    "start_date": "開始日",
+    "end_date": "終了日",
+    "cancel": "キャンセル"
   }
 }

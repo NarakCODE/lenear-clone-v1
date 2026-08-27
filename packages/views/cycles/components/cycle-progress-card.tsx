@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { cycleProgressOptions } from "@multica/core/cycles";
 import type { Cycle } from "@multica/core/types";
+import { useT } from "../../i18n";
 
 export function CycleProgressCard({
   workspaceId,
@@ -11,6 +12,7 @@ export function CycleProgressCard({
   workspaceId: string;
   cycle: Cycle;
 }) {
+  const { t } = useT("common");
   const { data: progress } = useQuery(
     cycleProgressOptions(workspaceId, cycle.id),
   );
@@ -37,7 +39,7 @@ export function CycleProgressCard({
 
       <div className="flex items-center justify-between text-caption text-muted-foreground">
         <span>
-          {completed} of {total} issues completed
+          {t(($) => $.cycles.progress, { completed, total })}
         </span>
         <span>
           {new Date(cycle.start_date).toLocaleDateString()} –{" "}
