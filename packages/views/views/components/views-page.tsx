@@ -8,6 +8,7 @@ import { useWorkspaceId } from "@multica/core/hooks";
 import { useWorkspacePaths } from "@multica/core/paths";
 import { Button } from "@multica/ui/components/ui/button";
 import { Input } from "@multica/ui/components/ui/input";
+import { useT } from "../../i18n";
 import { AppLink } from "../../navigation/app-link";
 
 export function ViewsPage({
@@ -18,6 +19,7 @@ export function ViewsPage({
 } = {}) {
   const contextWsId = useWorkspaceId();
   const paths = useWorkspacePaths();
+  const { t } = useT("common");
   const workspaceId = propWsId || contextWsId;
 
   const [search, setSearch] = useState("");
@@ -35,16 +37,18 @@ export function ViewsPage({
     <div className="flex-1 flex flex-col min-h-0 bg-background">
       <div className="border-b border-border/40 px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-title font-semibold tracking-tight">Views</h1>
+          <h1 className="text-title font-semibold tracking-tight">
+            {t(($) => $.issue_views.title)}
+          </h1>
           <p className="text-body text-muted-foreground">
-            Saved custom filters, groupings, and views across your workspace issues.
+            {t(($) => $.issue_views.description)}
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative w-64">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
             <Input
-              placeholder="Filter views..."
+              placeholder={t(($) => $.issue_views.filter_placeholder)}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-8 text-caption h-8"
@@ -67,17 +71,19 @@ export function ViewsPage({
           <div className="text-center py-16 border border-dashed border-border/60 rounded-xl p-8 max-w-md mx-auto">
             <LayoutGrid className="size-10 text-muted-foreground mx-auto mb-3" />
             <h3 className="text-title-sm font-medium mb-1">
-              {search ? "No views match your search" : "No saved views yet"}
+              {search
+                ? t(($) => $.issue_views.no_matches)
+                : t(($) => $.issue_views.empty)}
             </h3>
             <p className="text-caption text-muted-foreground mb-4">
               {search
-                ? "Try searching for a different view name."
-                : "Save your favorite filters and views directly from the Issues page."}
+                ? t(($) => $.issue_views.try_different)
+                : t(($) => $.issue_views.save_hint)}
             </p>
             <AppLink href={paths.issues()}>
               <Button size="sm" className="gap-1.5">
                 <Eye className="size-4" />
-                <span>Go to Issues</span>
+                <span>{t(($) => $.issue_views.go_to_issues)}</span>
               </Button>
             </AppLink>
           </div>
@@ -100,17 +106,21 @@ export function ViewsPage({
                     <span className="flex items-center gap-1 text-micro text-muted-foreground bg-muted px-2 py-0.5 rounded">
                       {v.visibility === "workspace" ? (
                         <>
-                          <Globe className="size-3" /> Workspace
+                          <Globe className="size-3" />
+                          {t(($) => $.issue_views.workspace)}
                         </>
                       ) : (
                         <>
-                          <Lock className="size-3" /> Private
+                          <Lock className="size-3" />
+                          {t(($) => $.issue_views.private)}
                         </>
                       )}
                     </span>
                   </div>
                   <p className="text-caption text-muted-foreground">
-                    Created {new Date(v.created_at).toLocaleDateString()}
+                    {t(($) => $.issue_views.created, {
+                      date: new Date(v.created_at).toLocaleDateString(),
+                    })}
                   </p>
                 </div>
 
@@ -119,7 +129,7 @@ export function ViewsPage({
                     href={`${paths.issues()}?view=${v.id}`}
                     className="text-caption text-primary hover:underline font-medium"
                   >
-                    Open View →
+                    {t(($) => $.issue_views.open)}
                   </AppLink>
                   <Button
                     variant="ghost"

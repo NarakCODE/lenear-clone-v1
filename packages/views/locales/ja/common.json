@@ -108,5 +108,20 @@
   },
   "navigation": {
     "open_in_new_tab": "新しいタブで開く"
+  },
+  "issue_views": {
+    "no_cycle": "サイクルなし",
+    "title": "ビュー",
+    "description": "ワークスペースの課題で使える、保存済みのフィルター、グループ化、ビューです。",
+    "filter_placeholder": "ビューを絞り込む…",
+    "no_matches": "検索に一致するビューはありません",
+    "empty": "保存されたビューはまだありません",
+    "try_different": "別のビュー名で検索してみてください。",
+    "save_hint": "課題ページからお気に入りのフィルターやビューを直接保存できます。",
+    "go_to_issues": "課題へ移動",
+    "workspace": "ワークスペース",
+    "private": "非公開",
+    "created": "作成日 {{date}}",
+    "open": "ビューを開く →"
   }
 }

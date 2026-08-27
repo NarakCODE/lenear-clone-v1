@@ -1187,7 +1187,7 @@ class InMemoryMockStore {
     msgs.push(userMsg);
 
     // Find session to know the agent persona and workspace
-    let session = Object.values(this.db.chatSessions).flat().find((s) => s.id === sessionId);
+    const session = Object.values(this.db.chatSessions).flat().find((s) => s.id === sessionId);
     const agentId = session?.agent_id ?? "agt_claude";
     const agent = Object.values(this.db.agents).flat().find((a) => a.id === agentId);
     const agentName = agent?.name ?? "Claude Code";

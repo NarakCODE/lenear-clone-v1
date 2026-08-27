@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Repeat } from "lucide-react";
 import { cycleListOptions } from "@multica/core/cycles";
 import type { UpdateIssueRequest } from "@multica/core/types";
+import { useT } from "../../../i18n";
 import { PropertyPicker, PickerItem } from "./property-picker";
 
 export function CyclePicker({
@@ -28,6 +29,7 @@ export function CyclePicker({
   onOpenChange?: (v: boolean) => void;
   align?: "start" | "center" | "end";
 }) {
+  const { t } = useT("common");
   const [internalOpen, setInternalOpen] = useState(false);
   const open = controlledOpen ?? internalOpen;
   const setOpen = controlledOnOpenChange ?? setInternalOpen;
@@ -57,7 +59,9 @@ export function CyclePicker({
         ) : (
           <>
             <Repeat className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-            <span className="text-muted-foreground">No cycle</span>
+            <span className="text-muted-foreground">
+              {t(($) => $.issue_views.no_cycle)}
+            </span>
           </>
         ))
       }
@@ -69,7 +73,9 @@ export function CyclePicker({
           setOpen(false);
         }}
       >
-        <span className="text-muted-foreground">No cycle</span>
+        <span className="text-muted-foreground">
+          {t(($) => $.issue_views.no_cycle)}
+        </span>
       </PickerItem>
       {cycles.map((c) => (
         <PickerItem

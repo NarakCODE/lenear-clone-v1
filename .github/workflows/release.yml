@@ -57,6 +57,21 @@ jobs:
       - name: Record Go toolchain
         run: go version
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify frontend
+        run: pnpm exec turbo build typecheck lint test --filter='!@multica/docs'
+
       - name: Verify Go test wrapper
         run: bash scripts/test-go.test.sh
 
@@ -76,12 +91,6 @@ jobs:
 
   release:
     needs: verify
-    # Only run on the canonical upstream repo. Forks don't have the
-    # HOMEBREW_TAP_GITHUB_TOKEN secret and should not be publishing to
-    # `multica-ai/homebrew-tap` anyway. Without this guard, every fork's
-    # tag push fails this job (401 against the upstream tap), which makes
-    # downstream CI go red without affecting the actual artifact pipeline.
-    if: github.repository_owner == 'multica-ai'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -101,7 +110,8 @@ jobs:
       - name: Record Go toolchain
         run: go version
 
-      - name: Run GoReleaser
+      - name: Run GoReleaser with Homebrew
+        if: github.repository_owner == 'multica-ai'
         uses: goreleaser/goreleaser-action@v6
         with:
           version: "~> v2"
@@ -109,6 +119,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+
+      - name: Run GoReleaser without Homebrew
+        if: github.repository_owner != 'multica-ai'
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          version: "~> v2"
+          args: release --clean --skip=brews
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Multi-arch images are built natively per platform on dedicated runners
   # (amd64 on ubuntu-latest, arm64 on ubuntu-24.04-arm) and merged into a
@@ -222,9 +241,15 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create \
-            $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf 'ghcr.io/${{ github.repository_owner }}/multica-backend@sha256:%s ' *)
+          tag_args=()
+          while IFS= read -r tag; do
+            [ -n "$tag" ] && tag_args+=(-t "$tag")
+          done <<< "${{ steps.meta.outputs.tags }}"
+          sources=()
+          for digest in *; do
+            sources+=("ghcr.io/${{ github.repository_owner }}/multica-backend@sha256:${digest}")
+          done
+          docker buildx imagetools create "${tag_args[@]}" "${sources[@]}"
 
       - name: Inspect image
         run: |
@@ -339,9 +364,15 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create \
-            $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf 'ghcr.io/${{ github.repository_owner }}/multica-web@sha256:%s ' *)
+          tag_args=()
+          while IFS= read -r tag; do
+            [ -n "$tag" ] && tag_args+=(-t "$tag")
+          done <<< "${{ steps.meta.outputs.tags }}"
+          sources=()
+          for digest in *; do
+            sources+=("ghcr.io/${{ github.repository_owner }}/multica-web@sha256:${digest}")
+          done
+          docker buildx imagetools create "${tag_args[@]}" "${sources[@]}"
 
       - name: Inspect image
         run: |
@@ -350,7 +381,6 @@ jobs:
 
   helm-chart:
     needs: [verify, docker-backend-merge, docker-web-merge]
-    if: github.repository_owner == 'multica-ai'
     runs-on: ubuntu-latest
     concurrency:
       group: release-helm-chart-${{ github.ref }}
@@ -370,8 +400,11 @@ jobs:
           TAG_NAME: ${{ needs.verify.outputs.tag_name }}
         run: |
           chart_version="${TAG_NAME#v}"
+          image_owner="${GITHUB_REPOSITORY_OWNER,,}"
           sed -i -E "s/^version:.*/version: ${chart_version}/" "$CHART_DIR/Chart.yaml"
           sed -i -E "s/^appVersion:.*/appVersion: \"${TAG_NAME}\"/" "$CHART_DIR/Chart.yaml"
+          sed -i -E "s#repository: ghcr.io/[^/]+/multica-backend#repository: ghcr.io/${image_owner}/multica-backend#" "$CHART_DIR/values.yaml"
+          sed -i -E "s#repository: ghcr.io/[^/]+/multica-web#repository: ghcr.io/${image_owner}/multica-web#" "$CHART_DIR/values.yaml"
           echo "CHART_VERSION=${chart_version}" >> "$GITHUB_ENV"
 
       - name: Lint chart
@@ -388,4 +421,3 @@ jobs:
 
       - name: Verify published chart
         run: helm show chart "$OCI_REGISTRY/multica" --version "$CHART_VERSION"
-

@@ -108,5 +108,20 @@
   },
   "navigation": {
     "open_in_new_tab": "Open in new tab"
+  },
+  "issue_views": {
+    "no_cycle": "No cycle",
+    "title": "Views",
+    "description": "Saved custom filters, groupings, and views across your workspace issues.",
+    "filter_placeholder": "Filter views...",
+    "no_matches": "No views match your search",
+    "empty": "No saved views yet",
+    "try_different": "Try searching for a different view name.",
+    "save_hint": "Save your favorite filters and views directly from the Issues page.",
+    "go_to_issues": "Go to Issues",
+    "workspace": "Workspace",
+    "private": "Private",
+    "created": "Created {{date}}",
+    "open": "Open View →"
   }
 }

@@ -108,5 +108,20 @@
   },
   "navigation": {
     "open_in_new_tab": "새 탭에서 열기"
+  },
+  "issue_views": {
+    "no_cycle": "사이클 없음",
+    "title": "뷰",
+    "description": "워크스페이스 이슈에서 사용할 수 있는 저장된 필터, 그룹화 및 뷰예요.",
+    "filter_placeholder": "뷰 필터링...",
+    "no_matches": "검색과 일치하는 뷰가 없어요",
+    "empty": "저장된 뷰가 아직 없어요",
+    "try_different": "다른 뷰 이름으로 검색해 보세요.",
+    "save_hint": "이슈 페이지에서 즐겨찾는 필터와 뷰를 바로 저장할 수 있어요.",
+    "go_to_issues": "이슈로 이동",
+    "workspace": "워크스페이스",
+    "private": "비공개",
+    "created": "생성일 {{date}}",
+    "open": "뷰 열기 →"
   }
 }

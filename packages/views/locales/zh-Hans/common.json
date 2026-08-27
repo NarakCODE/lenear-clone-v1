@@ -108,5 +108,20 @@
   },
   "navigation": {
     "open_in_new_tab": "在新标签页打开"
+  },
+  "issue_views": {
+    "no_cycle": "无周期",
+    "title": "视图",
+    "description": "跨工作区问题保存的自定义筛选、分组和视图。",
+    "filter_placeholder": "筛选视图...",
+    "no_matches": "没有匹配搜索条件的视图",
+    "empty": "还没有保存的视图",
+    "try_different": "请尝试搜索其他视图名称。",
+    "save_hint": "你可以直接从问题页面保存常用的筛选器和视图。",
+    "go_to_issues": "前往问题",
+    "workspace": "工作区",
+    "private": "私有",
+    "created": "创建于 {{date}}",
+    "open": "打开视图 →"
   }
 }
