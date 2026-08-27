@@ -1060,7 +1060,7 @@ function TeamCyclesTab({
 
       {cycles.length === 0 ? (
         <div className="rounded-lg border border-dashed border-border/60 p-8 text-center">
-          <Repeat className="mx-auto mb-2 size-8 text-muted-foreground opacity-40" />
+          <Repeat className="mx-auto mb-2 size-8 text-faint-foreground" />
           <p className="text-caption text-muted-foreground">{t(($) => $.cycles_tab.no_cycles)}</p>
         </div>
       ) : (
